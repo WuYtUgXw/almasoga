@@ -46,27 +46,26 @@ fi
 echo -e "${yellow}/etc/soga 文件夹不存在，开始安装 soga${plain}"
 bash <(curl -Ls https://raw.githubusercontent.com/vaxilu/soga/master/install.sh)
 
+# 删除审计配置的功能
+echo -e "${green}删除审计配置${plain}"
+# 删除 /etc/soga/blockList 文件内容
+echo -n > /etc/soga/blockList
+echo -e "${green}删除成功${plain}"
+
 # 安装完成后输出消息
-echo -e "${yellow}欢迎使用 Damian 的 soga 配置脚本！${plain}"
+echo -e "${yellow}欢迎使用 涩龙 的 soga 配置脚本！${plain}"
 
 # 提示用户选择功能
 echo -e "\n请选择要执行的功能："
-echo -e "${red}1.${plain" "${green}删除审计配置${plain}"
-echo -e "${red}2.${plain" "${green}增加审计规则${plain}"
-echo -e "${red}3.${plain" "${green}其他功能${plain}"
+echo -e "${red}1. 增加审计规则${plain}"
+echo -e "${red}2. 其他功能${plain}"
 
 # 读取用户输入
-read -p "请输入功能编号（1、2、3）: " function_number
+read -p "请输入功能编号（1、2）: " function_number
 
 # 根据用户输入执行不同的功能
 case $function_number in
     1)
-        echo -e "${red}删除审计配置${plain}"
-        # 删除 /etc/soga/blockList 文件内容
-        echo -n > /etc/soga/blockList
-        echo -e "${green}删除成功${plain}"
-        ;;
-    2)
         echo -e "${red}增加审计规则${plain}"
         # 在 /etc/soga/blockList 文件中添加审计规则
         cat <<EOF >> /etc/soga/blockList
@@ -108,9 +107,9 @@ regexp:(.*\\.||)(weibo|douyin|douban|tieba.baidu|cctv|dianping|tv.cctv|zhihu|tou
 EOF
         echo -e "${green}审计规则添加成功${plain}"
         ;;
-    3)
-        echo -e "${red}其他功能${plain}"
-        # 添加其他功能的具体操作
+    2)
+        echo -e "${red}其他功能二${plain}"
+        # 添加其他功能二的具体操作
         ;;
     *)
         echo -e "${red}无效的功能编号${plain}"
