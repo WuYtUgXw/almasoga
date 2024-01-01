@@ -182,6 +182,8 @@ if [ -d /etc/soga ]; then
             echo -e "${green}无效的操作编号${plain}"
             exit 1
             ;;
+                    esac
+            ;;
     4)
         echo -e "${green}Soga重装${plain}"
         
