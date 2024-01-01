@@ -4,14 +4,7 @@
 red='\033[1;31m'
 green='\033[1;32m'
 yellow='\033[1;33m'
-yellow_light='\033[0;33m'
-plain='\033[0m'
-
-#!/bin/bash
-
-# 自定义颜色和字体大小
-green='\033[0;32m'
-yellow='\033[1;33m'
+yellow_light='\033[1;33m'
 plain='\033[0m'
 
 # 检测系统类型
