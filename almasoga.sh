@@ -8,7 +8,7 @@ yellow_light='\033[2;36m'
 plain='\033[0m'
 
 # 检测是否存在 /etc/soga 文件夹
-if [ -d /etc/soga ]; then
+if [ -d /etc/soga ]; then 
     echo -e "${green}/etc/soga 文件夹已存在，跳过安装 soga${plain}"
 else
     # 检测系统类型
@@ -175,11 +175,12 @@ if [ -d /etc/soga ]; then
                 *)
                     echo -e "${green}无效的选项${plain}"
                     exit 1
-                fi
-                ;;
+                    ;;
+            esac
+            ;;
         4)
             echo -e "${green}Soga重装${plain}"
-        
+            
             # Prompt for confirmation
             read -p "$(echo -e "${yellow}您确定要重新安装 Soga 吗？ (yes/no): ${plain}")" reinstall_choice
 
@@ -206,7 +207,4 @@ if [ -d /etc/soga ]; then
             exit 1
             ;;
     esac
-
-    # 脚本执行完毕
-    exit 0
 fi
