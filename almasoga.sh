@@ -109,7 +109,7 @@ case $function_number in
                 systemctl restart soga
                 echo -e "${green}Soga配置已更新并服务已重启${plain}"
                 ;;
-            
+            *)
                 echo -e "${red}无效的选项${plain}"
                 ;;
         esac
