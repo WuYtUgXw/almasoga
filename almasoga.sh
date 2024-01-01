@@ -63,7 +63,7 @@ if [ ! -d /etc/soga ]; then
 fi
 
 # 安装完成后输出消息
-echo -e "${yellow_light}欢迎使用 Damian 的 soga 配置脚本！${plain}"
+echo -e "${yellow_light}欢迎使用 涩龙 的 soga 配置脚本！${plain}"
 
 # 提示用户选择功能
 echo -e "${red}请选择要执行的功能：${plain}"
