@@ -51,9 +51,9 @@ echo -e "${yellow}欢迎使用 Damian 的 soga 配置脚本！${plain}"
 
 # 提示用户选择功能
 echo -e "\n请选择要执行的功能："
-echo -e "${red}1. ${green}删除审计配置${plain}"
-echo -e "${red}2. ${green}增加审计规则${plain}"
-echo -e "${red}3. ${green}其他功能${plain}"
+echo -e "${red}1.${plain" "${green}删除审计配置${plain}"
+echo -e "${red}2.${plain" "${green}增加审计规则${plain}"
+echo -e "${red}3.${plain" "${green}其他功能${plain}"
 
 # 读取用户输入
 read -p "请输入功能编号（1、2、3）: " function_number
