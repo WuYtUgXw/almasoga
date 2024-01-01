@@ -77,27 +77,20 @@ read -p "$(echo -e "${yellow}输入编号: ${plain}")" function_number
 # 根据用户输入执行不同的功能
 case $function_number in
     1)
-echo -e "${green}Soga配置${plain}"
-# 进入/etc/soga 将soga.conf里的type=后填入2board
-sed -i 's#type=#type=v2board#' /etc/soga/soga.conf
-# 在server_type=后填入ss
-sed -i 's#server_type=#server_type=ss#' /etc/soga/soga.conf
-# 在soga_key=后填入cvZeiEgPAKAIMZ2yQvGbJUjErpqmWSqX
-sed -i 's#soga_key=#soga_key=cvZeiEgPAKAIMZ2yQvGbJUjErpqmWSqX#' /etc/soga/soga.conf
-# 在api=后填入webapi
-sed -i 's#api=#api=webapi#' /etc/soga/soga.conf
-# 在webapi_url=后填入https://www.selom.xyz
-sed -i 's#webapi_url=#webapi_url=https://www.selom.xyz#' /etc/soga/soga.conf
-# 在webapi_key=后填入wDXU51aY20WlllgZ
-sed -i 's#webapi_key=#webapi_key=wDXU51aY20WlllgZ#' /etc/soga/soga.conf
+       echo -e "${green}Soga配置${plain}"
 
-# 提示输入「编号」，这个编号将在node_id=后填入
-read -p "$(echo -e "${yellow}请输入编号：${plain}")" node_id
-sed -i "s#node_id=#node_id=$node_id#" /etc/soga/soga.conf
+        # 进入/etc/soga 下载https://github.com/WuYtUgXw/almasoga的soga.conf并替换原来的soga.conf
+        wget -O /etc/soga/soga.conf https://github.com/WuYtUgXw/almasoga/raw/main/soga.conf
+        echo -e "${green}soga.conf 替换成功${plain}"
 
-# 保存并重启soga服务
-systemctl restart soga
-echo -e "${green}Soga配置已更新并服务已重启${plain}"
+        # 提示输入「编号」，这个编号将在/etc/soga的soga.conf的node_id=后填入
+        read -p "$(echo -e "${yellow}请输入编号：${plain}")" node_id
+        sed -i "s/node_id=/node_id=$node_id/" /etc/soga/soga.conf
+
+        # 保存并重启soga服务
+        systemctl restart soga
+        echo -e "${green}Soga配置已更新并服务已重启${plain}"
+        ;;
 
     2)
         echo -e "${green}解锁配置${plain}"
