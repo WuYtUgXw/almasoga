@@ -19,7 +19,9 @@ if [ -f /etc/redhat-release ]; then
         yum install wget -y
         echo -e "${green}wget 安装成功${plain}"
     fi
-elif [ -f /etc/debian_version ]; then
+fi
+
+if [ -f /etc/debian_version ]; then
     # Debian
     echo -e "${green}检测到 Debian 系统${plain}"
     # 检测是否存在 wget
@@ -31,32 +33,45 @@ elif [ -f /etc/debian_version ]; then
         apt-get install wget -y
         echo -e "${green}wget 安装成功${plain}"
     fi
-else
-    echo -e "${red}未检测到支持的系统${plain}"
-    exit 1
 fi
 
 # 检测是否存在 /etc/soga 文件夹
 if [ -d /etc/soga ]; then
-    # 存在 /etc/soga 文件夹，删除
-    echo -e "${yellow}/etc/soga 文件夹已存在，删除后重新安装 soga${plain}"
-    rm -rf /etc/soga
+    # 提示用户选择是否删除现有的 soga
+    read -p "$(echo -e "${red}是否删除现有 soga 并重新安装？${plain}") [1. 跳过安装 / 2. 删除并安装]: " reinstall_option
+
+    case $reinstall_option in
+        1)
+            echo -e "${yellow}跳过安装 soga${plain}"
+            ;;
+        2)
+            echo -e "${yellow}删除现有 soga 并重新安装${plain}"
+            rm -rf /etc/soga
+            ;;
+        *)
+            echo -e "${red}无效的选项，跳过安装 soga${plain}"
+            ;;
+    esac
 fi
 
-# 不存在 /etc/soga 文件夹，开始安装 soga
-echo -e "${yellow}/etc/soga 文件夹不存在，开始安装 soga${plain}"
-bash <(curl -Ls https://raw.githubusercontent.com/vaxilu/soga/master/install.sh)
+# 如果不存在 /etc/soga 文件夹，则开始安装 soga
+if [ ! -d /etc/soga ]; then
+    echo -e "${yellow}/etc/soga 文件夹不存在，开始安装 soga${plain}"
+    bash <(curl -Ls https://raw.githubusercontent.com/vaxilu/soga/master/install.sh)
+    echo -e "${green}soga 安装成功${plain}"
+fi
 
 # 安装完成后输出消息
-echo -e "${yellow}欢迎使用 涩龙 的 soga 配置脚本！${plain}"
+echo -e "${yellow}欢迎使用 Damian 的 soga 配置脚本！${plain}"
 
 # 提示用户选择功能
 echo -e "\n请选择要执行的功能："
 echo -e "${red}1. 删除审计配置${plain}"
 echo -e "${red}2. 增加审计规则${plain}"
+echo -e "${red}3. 其他功能${plain}"
 
 # 读取用户输入
-read -p "${yellow}请输入功能编号（1、2）: ${plain}" function_number
+read -p "$(echo -e "${yellow}请输入功能编号（1、2、3）: ${plain}")" function_number
 
 # 根据用户输入执行不同的功能
 case $function_number in
@@ -69,7 +84,7 @@ case $function_number in
     2)
         echo -e "${red}增加审计规则${plain}"
         # 在 /etc/soga/blockList 文件中添加审计规则
-        cat <<'EOF' >> /etc/soga/blockList
+        cat <<EOF >> /etc/soga/blockList
 # 每行一个审计规则
 # 纯字符串匹配规则
 360.com
@@ -80,14 +95,16 @@ qhimg.com
 360totalsecurity.cn
 yunpan.com
 
-# 正则表达式匹配规则
-regexp:(.*\\.)(visa|mycard|mastercard|gash|beanfun|bank).*
-# 省略其他规则...
+# 正则表达式匹配规则 (第二部分)
+# ...
 EOF
-        echo -e "${green}审计规则添加成功${plain}"
+        echo -e "${green}添加成功${plain}"
+        ;;
+    3)
+        echo -e "${red}其他功能，暂未实现${plain}"
         ;;
     *)
-        echo -e "${red}无效的功能编号${plain}"
+        echo -e "${red}无效的操作编号${plain}"
         ;;
 esac
 
