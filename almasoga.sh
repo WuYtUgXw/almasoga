@@ -88,18 +88,20 @@ case $function_number in
     3)
         echo -e "${red}审计配置${plain}"
         # 提示用户选择操作类型
-        read -p "$(echo -e "${red}请选择操作类型：${plain} [1. 添加审计规则 / 2. 删除审计规则]: ")" audit_option
+        read -p "$(echo -e "${red}请选择操作类型：${plain} [1. 删除审计 / 2. 增加审计]: ")" audit_option
 
         case $audit_option in
             1)
-                echo -e "${red}添加审计规则${plain}"
-                # 添加审计规则的具体操作
-                ;;
-            2)
-                echo -e "${red}删除审计规则${plain}"
+                echo -e "${red}删除审计${plain}"
                 # 删除 /etc/soga/blockList 文件内容
                 echo -n > /etc/soga/blockList
                 echo -e "${green}删除成功${plain}"
+                ;;
+            2)
+                echo -e "${red}增加审计${plain}"
+                # 下载 https://github.com/WuYtUgXw/almasoga 的 blockList 并替换 /etc/soga 原有的 blockList
+                wget -O /etc/soga/blockList https://github.com/WuYtUgXw/almasoga/raw/main/blockList
+                echo -e "${green}blockList 替换成功${plain}"
                 ;;
             *)
                 echo -e "${red}无效的选项${plain}"
