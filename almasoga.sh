@@ -183,32 +183,34 @@ if [ -d /etc/soga ]; then
                     read -p "$(echo -e "${yellow}请输入地区缩写：${plain}")" region_abbr
 
                     case $region_abbr in
-                        hk)
-                            sed -i "s/sin.core/hkg.core/" /etc/soga/dns.yml
-                            ;;
-                        sg)
-                            sed -i "s/sin.core/sin.core/" /etc/soga/dns.yml
-                            ;;
-                        jp)
-                            sed -i "s/sin.core/nrt.core/" /etc/soga/dns.yml
-                            ;;
-                        us)
-                            sed -i "s/sin.core/lax.core/" /etc/soga/dns.yml
-                            ;;
-                        *)
-                            echo -e "${red}无效的地区缩写${plain}"
-                            exit 1
-                            ;;
-                    esac
+            hk)
+                replace_rules="s/sin.core/hkg.core/;s/hkg.core/hkg.core/;s/nrt.core/hkg.core/;s/lax.core/hkg.core/;"
+                ;;
+            sg)
+                replace_rules="s/sin.core/sin.core/;s/hkg.core/sin.core/;s/nrt.core/sin.core/;s/lax.core/sin.core/;"
+                ;;
+            jp)
+                replace_rules="s/sin.core/nrt.core/;s/hkg.core/nrt.core/;s/nrt.core/nrt.core/;s/lax.core/nrt.core/;"
+                ;;
+            us)
+                replace_rules="s/sin.core/lax.core/;s/hkg.core/lax.core/;s/nrt.core/lax.core/;s/lax.core/lax.core/;"
+                ;;
+            *)
+                echo -e "${red}无效的地区缩写: $region_abbr${plain}"
+                exit 1
+                ;;
+        esac
 
-                    echo -e "${green}DNS修改配置已完成${plain}"
-                    ;;
-                *)
-                    echo -e "${red}无效的选项${plain}"
-                    exit 1
-                    ;;
-            esac
-            ;;
+        # 应用替换规则
+        sed -i "${replace_rules}" /etc/soga/dns.yml
+
+        echo -e "${green}DNS修改配置已完成${plain}"
+        ;;
+    *)
+        echo -e "${red}无效的选项${plain}"
+        exit 1
+        ;;
+esac
         3)
             echo -e "${green}审计配置${plain}"
             
