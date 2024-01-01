@@ -18,11 +18,14 @@ if [ -f /etc/redhat-release ]; then
         # 安装 wget
         echo -e "${green}系统未安装 wget，开始安装${plain}"
         yum install wget -y
-        echo -e "${green}wget 安装成功${plain}"
+        if [ $? -eq 0 ]; then
+            echo -e "${green}wget 安装成功${plain}"
+        else
+            echo -e "${red}wget 安装失败${plain}"
+            exit 1
+        fi
     fi
-fi
-
-if [ -f /etc/debian_version ]; then
+elif [ -f /etc/debian_version ]; then
     # Debian
     echo -e "${yellow}检测到 Debian 系统${plain}"
     # 检测是否存在 wget
@@ -32,18 +35,47 @@ if [ -f /etc/debian_version ]; then
         # 安装 wget
         echo -e "${green}系统未安装 wget，开始安装${plain}"
         apt-get install wget -y
-        echo -e "${green}wget 安装成功${plain}"
+        if [ $? -eq 0 ]; then
+            echo -e "${green}wget 安装成功${plain}"
+        else
+            echo -e "${red}wget 安装失败${plain}"
+            exit 1
+        fi
     fi
+else
+    echo -e "${red}不支持的系统类型${plain}"
+    exit 1
 fi
 
 # 检测是否存在 /etc/soga 文件夹
+if [ -d /etc/soga ]; then
+    # 提示用户选择是否删除现有的 soga
+    read -p "$(echo -e "${yellow}是否删除现有 soga 并重新安装？${plain}") [1. 跳过安装 / 2. 删除并安装]: " reinstall_option
+
+    case $reinstall_option in
+        1)
+            echo -e "${green}跳过安装 soga${plain}"
+            ;;
+        2)
+            echo -e "${green}删除现有 soga 并重新安装${plain}"
+            rm -rf /etc/soga
+            ;;
+        *)
+            echo -e "${green}无效的选项，跳过安装 soga${plain}"
+            ;;
+    esac
+fi
+
+# 如果不存在 /etc/soga 文件夹，则开始安装 soga
 if [ ! -d /etc/soga ]; then
     echo -e "${green}/etc/soga 文件夹不存在，开始安装 soga${plain}"
     bash <(curl -Ls https://raw.githubusercontent.com/vaxilu/soga/master/install.sh)
-    echo -e "${green}soga 安装成功${plain}"
-else
-    # 提示用户 soga 已安装，直接跳过
-    echo -e "${green}soga 已安装，跳过安装过程${plain}"
+    if [ $? -eq 0 ]; then
+        echo -e "${green}soga 安装成功${plain}"
+    else
+        echo -e "${red}soga 安装失败${plain}"
+        exit 1
+    fi
 fi
 
 # 安装完成后输出消息
@@ -54,7 +86,6 @@ echo -e "${red}请选择要执行的功能：${plain}"
 echo -e "${green}1. Soga配置${plain}"
 echo -e "${green}2. 解锁配置${plain}"
 echo -e "${green}3. 审计配置${plain}"
-echo -e "${green}4. Soga重装${plain}"
 
 # 读取用户输入
 read -p "$(echo -e "${yellow}输入编号: ${plain}")" function_number
@@ -73,7 +104,12 @@ case $function_number in
 
                 # 进入 /etc/soga 下载 https://github.com/WuYtUgXw/almasoga 的 soga.conf 并替换原来的 soga.conf
                 wget -O /etc/soga/soga.conf https://github.com/WuYtUgXw/almasoga/raw/main/soga.conf
-                echo -e "${green}soga.conf 替换成功${plain}"
+                if [ $? -eq 0 ]; then
+                    echo -e "${green}soga.conf 替换成功${plain}"
+                else
+                    echo -e "${red}soga.conf 替换失败${plain}"
+                    exit 1
+                fi
 
                 # 提示输入「编号」，这个编号将在 /etc/soga 的 soga.conf 的 node_id= 后填入
                 read -p "$(echo -e "${yellow}请输入编号：${plain}")" node_id
@@ -81,7 +117,12 @@ case $function_number in
 
                 # 保存并重启 soga 服务
                 systemctl restart soga
-                echo -e "${green}Soga配置已更新并服务已重启${plain}"
+                if [ $? -eq 0 ]; then
+                    echo -e "${green}Soga配置已更新并服务已重启${plain}"
+                else
+                    echo -e "${red}重启 soga 服务失败${plain}"
+                    exit 1
+                fi
                 ;;
             2)
                 echo -e "${green}修改配置文件${plain}"
@@ -92,7 +133,12 @@ case $function_number in
 
                 # 保存并重启 soga 服务
                 systemctl restart soga
-                echo -e "${green}Soga配置已更新并服务已重启${plain}"
+                if [ $? -eq 0 ]; then
+                    echo -e "${green}Soga配置已更新并服务已重启${plain}"
+                else
+                    echo -e "${red}重启 soga 服务失败${plain}"
+                    exit 1
+                fi
                 ;;
             *)
                 echo -e "${red}无效的选项${plain}"
@@ -103,7 +149,12 @@ case $function_number in
         echo -e "${green}解锁配置${plain}"
         # 下载 https://github.com/WuYtUgXw/almasoga 的配置文件并替换 /etc/soga 原有的配置
         wget -O /etc/soga/soga.conf https://github.com/WuYtUgXw/almasoga/raw/main/soga.conf
-        echo -e "${green}解锁配置替换成功${plain}"
+        if [ $? -eq 0 ]; then
+            echo -e "${green}解锁配置替换成功${plain}"
+        else
+            echo -e "${red}解锁配置替换失败${plain}"
+            exit 1
+        fi
         ;;
     3)
         echo -e "${green}审计配置${plain}"
@@ -115,37 +166,26 @@ case $function_number in
                 echo -e "${green}删除审计${plain}"
                 # 删除 /etc/soga/blockList 文件内容
                 echo -n > /etc/soga/blockList
-                echo -e "${green}删除成功${plain}"
+                if [ $? -eq 0 ]; then
+                    echo -e "${green}删除成功${plain}"
+                else
+                    echo -e "${red}删除失败${plain}"
+                    exit 1
+                fi
                 ;;
             2)
                 echo -e "${green}增加审计${plain}"
                 # 下载 https://github.com/WuYtUgXw/almasoga 的 blockList 并替换 /etc/soga 原有的 blockList
                 wget -O /etc/soga/blockList https://github.com/WuYtUgXw/almasoga/raw/main/blockList
-                echo -e "${green}blockList 替换成功${plain}"
+                if [ $? -eq 0 ]; then
+                    echo -e "${green}blockList 替换成功${plain}"
+                else
+                    echo -e "${red}blockList 替换失败${plain}"
+                    exit 1
+                fi
                 ;;
             *)
                 echo -e "${green}无效的选项${plain}"
-                ;;
-        esac
-        ;;
-    4)
-        echo -e "${green}Soga重装${plain}"
-
-        # 提示用户选择是否删除现有的 soga
-        read -p "$(echo -e "${yellow}是否删除现有 soga 并重新安装？${plain}") [yes/no]: " reinstall_option
-
-        case $reinstall_option in
-            yes|y)
-                echo -e "${green}同意删除现有 soga 并重新安装${plain}"
-                rm -rf /etc/soga
-                bash <(curl -Ls https://raw.githubusercontent.com/vaxilu/soga/master/install.sh)
-                echo -e "${green}soga 重新安装成功${plain}"
-                ;;
-            no|n)
-                echo -e "${green}取消删除现有 soga，跳过安装 soga${plain}"
-                ;;
-            *)
-                echo -e "${green}无效的选项，跳过安装 soga${plain}"
                 ;;
         esac
         ;;
