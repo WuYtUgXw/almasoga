@@ -73,6 +73,7 @@ if [ -d /etc/soga ]; then
     echo -e "${green}2. 解锁配置${plain}"
     echo -e "${green}3. 审计配置${plain}"
     echo -e "${green}4. Soga重装${plain}"
+    echo -e "${green}5. 流媒体测试${plain}"
 
     # 读取用户输入
     read -p "$(echo -e "${yellow}输入编号: ${plain}")" function_number
@@ -143,7 +144,7 @@ if [ -d /etc/soga ]; then
                 1)
                     echo -e "${green}DNS解锁${plain}"
 
-                    # 下载 https://github.com/WuYtUgXw/almasoga 的 dns.yml 并替换 /etc/soga 原有的 dns.yml
+                    # 下载 https://github.com/WuYtUgXw/almasoga 的 dns.yml 并替换 /etc/soga 原有
                     wget -O /etc/soga/dns.yml https://github.com/WuYtUgXw/almasoga/raw/main/dns.yml
                     if [ $? -eq 0 ]; then
                         echo -e "${green}dns.yml 替换成功${plain}"
@@ -183,35 +184,35 @@ if [ -d /etc/soga ]; then
                     read -p "$(echo -e "${yellow}请输入地区缩写：${plain}")" region_abbr
 
                     case $region_abbr in
-            hk)
-                replace_rules="s/sin.core/hkg.core/;s/hkg.core/hkg.core/;s/nrt.core/hkg.core/;s/lax.core/hkg.core/;"
-                ;;
-            sg)
-                replace_rules="s/sin.core/sin.core/;s/hkg.core/sin.core/;s/nrt.core/sin.core/;s/lax.core/sin.core/;"
-                ;;
-            jp)
-                replace_rules="s/sin.core/nrt.core/;s/hkg.core/nrt.core/;s/nrt.core/nrt.core/;s/lax.core/nrt.core/;"
-                ;;
-            us)
-                replace_rules="s/sin.core/lax.core/;s/hkg.core/lax.core/;s/nrt.core/lax.core/;s/lax.core/lax.core/;"
-                ;;
-            *)
-                echo -e "${red}无效的地区缩写: $region_abbr${plain}"
-                exit 1
-                ;;
-        esac
+                        hk)
+                            replace_rules="s/sin.core/hkg.core/;s/hkg.core/hkg.core/;s/nrt.core/hkg.core/;s/lax.core/hkg.core/;"
+                            ;;
+                        sg)
+                            replace_rules="s/sin.core/sin.core/;s/hkg.core/sin.core/;s/nrt.core/sin.core/;s/lax.core/sin.core/;"
+                            ;;
+                        jp)
+                            replace_rules="s/sin.core/nrt.core/;s/hkg.core/nrt.core/;s/nrt.core/nrt.core/;s/lax.core/nrt.core/;"
+                            ;;
+                        us)
+                            replace_rules="s/sin.core/lax.core/;s/hkg.core/lax.core/;s/nrt.core/lax.core/;s/lax.core/lax.core/;"
+                            ;;
+                        *)
+                            echo -e "${red}无效的地区缩写: $region_abbr${plain}"
+                            exit 1
+                            ;;
+                    esac
 
-        # 应用替换规则
-        sed -i "${replace_rules}" /etc/soga/dns.yml
+                    # 应用替换规则
+                    sed -i "${replace_rules}" /etc/soga/dns.yml
 
-        echo -e "${green}DNS修改配置已完成${plain}"
-        ;;
-    *)
-        echo -e "${red}无效的选项${plain}"
-        exit 1
-        ;;
-esac
-        ;;
+                    echo -e "${green}DNS修改配置已完成${plain}"
+                    ;;
+                *)
+                    echo -e "${red}无效的选项${plain}"
+                    exit 1
+                    ;;
+            esac
+            ;;
         3)
             echo -e "${green}审计配置${plain}"
             
@@ -270,6 +271,10 @@ esac
                 echo -e "${yellow_light}Soga 重装已取消${plain}"
                 exit 0
             fi
+            ;;
+        5)
+            echo -e "${green}流媒体测试${plain}"
+            bash <(curl -L -s https://netflix.dad/detect-script)
             ;;
         *)
             echo -e "${green}无效的操作编号${plain}"
