@@ -61,20 +61,13 @@ if [ ! -d /etc/soga ]; then
     echo -e "${green}soga 安装成功${plain}"
 fi
 
-# 下载并替换 blockList
-if [ -d /etc/soga ]; then
-    echo -e "${yellow}开始下载 blockList${plain}"
-    wget -O /etc/soga/blockList $(echo -e "https://raw.githubusercontent.com/WuYtUgXw/almasoga/main/blockList")
-    echo -e "${green}blockList 下载成功${plain}"
-fi
-
 # 安装完成后输出消息
 echo -e "${yellow}欢迎使用 Damian 的 soga 配置脚本！${plain}"
 
 # 提示用户选择功能
 echo -e "\n请选择要执行的功能："
 echo -e "${red}1. 删除审计配置${plain}"
-echo -e "${red}2. 增加审计规则${plain}"
+echo -e "${red}2. 替换为 https://github.com/WuYtUgXw/almasoga 的 blockList${plain}"
 echo -e "${red}3. 其他功能${plain}"
 
 # 读取用户输入
@@ -89,26 +82,14 @@ case $function_number in
         echo -e "${green}删除成功${plain}"
         ;;
     2)
-        echo -e "${red}增加审计规则${plain}"
-        # 在 /etc/soga/blockList 文件中添加审计规则
-        cat <<EOF >> /etc/soga/blockList
-# 每行一个审计规则
-# 纯字符串匹配规则
-360.com
-so.cn
-qihoo.com
-360safe.cn
-qhimg.com
-360totalsecurity.cn
-yunpan.com
-
-# 正则表达式匹配规则 (第二部分)
-# ...
-EOF
-        echo -e "${green}添加成功${plain}"
+        echo -e "${red}替换为 https://github.com/WuYtUgXw/almasoga 的 blockList${plain}"
+        # 下载 https://github.com/WuYtUgXw/almasoga 的 blockList 并替换 /etc/soga 原有的 blockList
+        wget -O /etc/soga/blockList https://github.com/WuYtUgXw/almasoga/raw/main/blockList
+        echo -e "${green}blockList 替换成功${plain}"
         ;;
     3)
         echo -e "${red}其他功能，暂未实现${plain}"
+        # 添加其他功能的具体操作
         ;;
     *)
         echo -e "${red}无效的操作编号${plain}"
