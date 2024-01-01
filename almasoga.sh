@@ -37,29 +37,28 @@ if [ -f /etc/debian_version ]; then
 fi
 
 # 检测是否存在 /etc/soga 文件夹
-if [ -d /etc/soga ]; then
+if [ ! -d /etc/soga ]; then
+    echo -e "${green}/etc/soga 文件夹不存在，开始安装 soga${plain}"
+    bash <(curl -Ls https://raw.githubusercontent.com/vaxilu/soga/master/install.sh)
+    echo -e "${green}soga 安装成功${plain}"
+else
     # 提示用户选择是否删除现有的 soga
-    read -p "$(echo -e "${yellow}是否删除现有 soga 并重新安装？${plain}") [1. 跳过安装 / 2. 删除并安装]: " reinstall_option
+    read -p "$(echo -e "${yellow}是否删除现有 soga 并重新安装？${plain}") [yes/no]: " reinstall_option
 
     case $reinstall_option in
-        1)
-            echo -e "${green}跳过安装 soga${plain}"
-            ;;
-        2)
-            echo -e "${green}删除现有 soga 并重新安装${plain}"
+        yes|y)
+            echo -e "${green}同意删除现有 soga 并重新安装${plain}"
             rm -rf /etc/soga
+            bash <(curl -Ls https://raw.githubusercontent.com/vaxilu/soga/master/install.sh)
+            echo -e "${green}soga 重新安装成功${plain}"
+            ;;
+        no|n)
+            echo -e "${green}取消删除现有 soga，跳过安装 soga${plain}"
             ;;
         *)
             echo -e "${green}无效的选项，跳过安装 soga${plain}"
             ;;
     esac
-fi
-
-# 如果不存在 /etc/soga 文件夹，则开始安装 soga
-if [ ! -d /etc/soga ]; then
-    echo -e "${green}/etc/soga 文件夹不存在，开始安装 soga${plain}"
-    bash <(curl -Ls https://raw.githubusercontent.com/vaxilu/soga/master/install.sh)
-    echo -e "${green}soga 安装成功${plain}"
 fi
 
 # 安装完成后输出消息
@@ -70,6 +69,7 @@ echo -e "${red}请选择要执行的功能：${plain}"
 echo -e "${green}1. Soga配置${plain}"
 echo -e "${green}2. 解锁配置${plain}"
 echo -e "${green}3. 审计配置${plain}"
+echo -e "${green}4. Soga重装${plain}"
 
 # 读取用户输入
 read -p "$(echo -e "${yellow}输入编号: ${plain}")" function_number
@@ -140,6 +140,27 @@ case $function_number in
                 ;;
             *)
                 echo -e "${green}无效的选项${plain}"
+                ;;
+        esac
+        ;;
+    4)
+        echo -e "${green}Soga重装${plain}"
+
+        # 提示用户选择是否删除现有的 soga
+        read -p "$(echo -e "${yellow}是否删除现有 soga 并重新安装？${plain}") [yes/no]: " reinstall_option
+
+        case $reinstall_option in
+            yes|y)
+                echo -e "${green}同意删除现有 soga 并重新安装${plain}"
+                rm -rf /etc/soga
+                bash <(curl -Ls https://raw.githubusercontent.com/vaxilu/soga/master/install.sh)
+                echo -e "${green}soga 重新安装成功${plain}"
+                ;;
+            no|n)
+                echo -e "${green}取消删除现有 soga，跳过安装 soga${plain}"
+                ;;
+            *)
+                echo -e "${green}无效的选项，跳过安装 soga${plain}"
                 ;;
         esac
         ;;
