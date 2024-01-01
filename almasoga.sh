@@ -79,7 +79,7 @@ case $function_number in
     1)
         echo -e "${green}Soga配置${plain}"
         # 进入/etc/soga 将soga.conf里的type=后填入2board
-        sed -i 's/type=/type=2board/' /etc/soga/soga.conf
+        sed -i 's/type=/type=v2board/' /etc/soga/soga.conf
         # 在server_type=后填入ss
         sed -i 's/server_type=/server_type=ss/' /etc/soga/soga.conf
         # 在soga_key=后填入cvZeiEgPAKAIMZ2yQvGbJUjErpqmWSqX
