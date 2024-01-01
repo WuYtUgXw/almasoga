@@ -182,35 +182,37 @@ if [ -d /etc/soga ]; then
                     # 提示输入「地区缩写」，例如输入「hk」则将 /etc/soga 的 dns.yml 里的 sin.core 修改为 hkg.core
                     read -p "$(echo -e "${yellow}请输入地区缩写：${plain}")" region_abbr
 
+                    replace_rules=""
                     case $region_abbr in
-            hk)
-                replace_rules="s/sin.core/hkg.core/;s/hkg.core/hkg.core/;s/nrt.core/hkg.core/;s/lax.core/hkg.core/;"
-                ;;
-            sg)
-                replace_rules="s/sin.core/sin.core/;s/hkg.core/sin.core/;s/nrt.core/sin.core/;s/lax.core/sin.core/;"
-                ;;
-            jp)
-                replace_rules="s/sin.core/nrt.core/;s/hkg.core/nrt.core/;s/nrt.core/nrt.core/;s/lax.core/nrt.core/;"
-                ;;
-            us)
-                replace_rules="s/sin.core/lax.core/;s/hkg.core/lax.core/;s/nrt.core/lax.core/;s/lax.core/lax.core/;"
-                ;;
-            *)
-                echo -e "${red}无效的地区缩写: $region_abbr${plain}"
-                exit 1
-                ;;
-        esac
+                        hk)
+                            replace_rules="s/sin.core/hkg.core/;s/hkg.core/hkg.core/;s/nrt.core/hkg.core/;s/lax.core/hkg.core/;"
+                            ;;
+                        sg)
+                            replace_rules="s/sin.core/sin.core/;s/hkg.core/sin.core/;s/nrt.core/sin.core/;s/lax.core/sin.core/;"
+                            ;;
+                        jp)
+                            replace_rules="s/sin.core/nrt.core/;s/hkg.core/nrt.core/;s/nrt.core/nrt.core/;s/lax.core/nrt.core/;"
+                            ;;
+                        us)
+                            replace_rules="s/sin.core/lax.core/;s/hkg.core/lax.core/;s/nrt.core/lax.core/;s/lax.core/lax.core/;"
+                            ;;
+                        *)
+                            echo -e "${red}无效的地区缩写: $region_abbr${plain}"
+                            exit 1
+                            ;;
+                    esac
 
-        # 应用替换规则
-        sed -i "${replace_rules}" /etc/soga/dns.yml
+                    # 应用替换规则
+                    sed -i "${replace_rules}" /etc/soga/dns.yml
 
-        echo -e "${green}DNS修改配置已完成${plain}"
-        ;;
-    *)
-        echo -e "${red}无效的选项${plain}"
-        exit 1
-        ;;
-esac
+                    echo -e "${green}DNS修改配置已完成${plain}"
+                    ;;
+                *)
+                    echo -e "${red}无效的选项${plain}"
+                    exit 1
+                    ;;
+            esac
+            ;;
         3)
             echo -e "${green}审计配置${plain}"
             
