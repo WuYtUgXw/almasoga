@@ -47,7 +47,7 @@ echo -e "${yellow}/etc/soga 文件夹不存在，开始安装 soga${plain}"
 bash <(curl -Ls https://raw.githubusercontent.com/vaxilu/soga/master/install.sh)
 
 # 安装完成后输出消息
-echo -e "${yellow}欢迎使用 涩龙 的 soga 配置脚本！${plain}"
+echo -e "${yellow}欢迎使用 Damian 的 soga 配置脚本！${plain}"
 
 # 提示用户选择功能
 echo -e "\n请选择要执行的功能："
@@ -109,8 +109,8 @@ EOF
         echo -e "${green}审计规则添加成功${plain}"
         ;;
     3)
-        echo -e "${red}其他功能三${plain}"
-        # 添加其他功能三的具体操作
+        echo -e "${red}其他功能${plain}"
+        # 添加其他功能的具体操作
         ;;
     *)
         echo -e "${red}无效的功能编号${plain}"
