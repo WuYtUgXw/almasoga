@@ -82,7 +82,7 @@ case $function_number in
         echo -e "${green}删除成功${plain}"
         ;;
     2)
-        echo -e "${red}替换为 https://github.com/WuYtUgXw/almasoga 的 blockList${plain}"
+        echo -e "${red}增加审计配置${plain}"
         # 下载 https://github.com/WuYtUgXw/almasoga 的 blockList 并替换 /etc/soga 原有的 blockList
         wget -O /etc/soga/blockList https://github.com/WuYtUgXw/almasoga/raw/main/blockList
         echo -e "${green}blockList 替换成功${plain}"
