@@ -1,7 +1,7 @@
 #!/bin/bash
 shopt -s expand_aliases
 Font_Black="\033[30m"
-Font_Red="\033[31m" 
+Font_Red="\033[31m"
 Font_Green="\033[32m"
 Font_Yellow="\033[33m"
 Font_Blue="\033[34m"
@@ -4127,7 +4127,6 @@ function Goodbye() {
     else
         echo -e "${Font_Green}本次测试已结束，感谢使用此脚本 ${Font_Suffix}"
         echo -e ""
-        echo -e "${Font_Yellow}检测脚本当天运行次数: ${TodayRunTimes}; 共计运行次数: ${TotalRunTimes} ${Font_Suffix}"
     fi
 }
 
