@@ -56,7 +56,7 @@ echo -e "${red}2. 增加审计规则${plain}"
 echo -e "${red}3. 其他功能${plain}"
 
 # 读取用户输入
-read -p "${yellow}请输入功能编号（1、2、3）: ${plain}" function_number
+read -p "请输入功能编号（1、2、3）: " function_number
 
 # 根据用户输入执行不同的功能
 case $function_number in
