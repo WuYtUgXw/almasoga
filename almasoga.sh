@@ -8,7 +8,7 @@ yellow_light='\033[2;36m'
 plain='\033[0m'
 
 # 检测是否存在 /etc/soga 文件夹
-if [ -d /etc/soga ]; then
+if [ -d /etc/soga ]; then 
     echo -e "${green}/etc/soga 文件夹已存在，跳过安装 soga${plain}"
 else
     # 检测系统类型
