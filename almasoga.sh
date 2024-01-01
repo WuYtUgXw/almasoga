@@ -135,84 +135,83 @@ if [ -d /etc/soga ]; then
             ;;
         2)
             echo -e "${green}解锁配置${plain}"
+            
+            # 提示用户选择解锁配置的类型
+            read -p "$(echo -e "${yellow}请选择解锁配置的类型：${plain} [1. DNS解锁 / 2. DNS修改]: ")" unlock_option
 
-            # 提示用户选择解锁类型
-            echo -e "${green}请选择解锁类型：${plain}"
-            echo -e "${green}1. DNS解锁${plain}"
-            echo -e "${green}2. DNS修改${plain}"
-            read -p "$(echo -e "${yellow}输入编号: ${plain}")" unlock_type
-
-            case $unlock_type in
+            case $unlock_option in
                 1)
                     echo -e "${green}DNS解锁${plain}"
 
-                    # 下载 https://github.com/WuYtUgXw/almasoga 的 dns 文件并替换 /etc/soga 原有的 dns 文件
-                    wget -O /etc/soga/dns https://github.com/WuYtUgXw/almasoga/raw/main/dns
+                    # 下载 https://github.com/WuYtUgXw/almasoga 的 dns.yml 并替换 /etc/soga 原有的 dns.yml
+                    wget -O /etc/soga/dns.yml https://github.com/WuYtUgXw/almasoga/raw/main/dns.yml
                     if [ $? -eq 0 ]; then
-                        echo -e "${green}dns 文件替换成功${plain}"
+                        echo -e "${green}dns.yml 替换成功${plain}"
                     else
-                        echo -e "${red}dns 文件替换失败${plain}"
+                        echo -e "${red}dns.yml 替换失败${plain}"
                         exit 1
                     fi
 
-                    # 提示输入「地区缩写」
+                    # 提示输入「地区缩写」，例如输入「hk」则将 /etc/soga 的 dns.yml 里的 sin.core 修改为 hkg.core
                     read -p "$(echo -e "${yellow}请输入地区缩写：${plain}")" region_abbr
 
-                    # 根据输入修改 /etc/soga 的 dns 文件
                     case $region_abbr in
                         hk)
-                            sed -i 's/sin.core/hkg.core/' /etc/soga/dns
+                            sed -i "s/sin.core/hkg.core/" /etc/soga/dns.yml
                             ;;
                         sg)
-                            sed -i 's/sin.core/sin.core/' /etc/soga/dns
+                            sed -i "s/sin.core/sin.core/" /etc/soga/dns.yml
                             ;;
                         jp)
-                            sed -i 's/sin.core/nrt.core/' /etc/soga/dns
+                            sed -i "s/sin.core/nrt.core/" /etc/soga/dns.yml
                             ;;
                         us)
-                            sed -i 's/sin.core/lax.core/' /etc/soga/dns
+                            sed -i "s/sin.core/lax.core/" /etc/soga/dns.yml
                             ;;
                         *)
                             echo -e "${red}无效的地区缩写${plain}"
                             exit 1
                             ;;
                     esac
+
+                    echo -e "${green}DNS解锁配置已完成${plain}"
                     ;;
                 2)
                     echo -e "${green}DNS修改${plain}"
 
-                    # 提示输入「地区缩写」
+                    # 提示输入「地区缩写」，例如输入「hk」则将 /etc/soga 的 dns.yml 里的 sin.core 修改为 hkg.core
                     read -p "$(echo -e "${yellow}请输入地区缩写：${plain}")" region_abbr
 
-                    # 根据输入修改 /etc/soga 的 dns 文件
                     case $region_abbr in
                         hk)
-                            sed -i 's/sin.core/hkg.core/' /etc/soga/dns
+                            sed -i "s/sin.core/hkg.core/" /etc/soga/dns.yml
                             ;;
                         sg)
-                            sed -i 's/sin.core/sin.core/' /etc/soga/dns
+                            sed -i "s/sin.core/sin.core/" /etc/soga/dns.yml
                             ;;
                         jp)
-                            sed -i 's/sin.core/nrt.core/' /etc/soga/dns
+                            sed -i "s/sin.core/nrt.core/" /etc/soga/dns.yml
                             ;;
                         us)
-                            sed -i 's/sin.core/lax.core/' /etc/soga/dns
+                            sed -i "s/sin.core/lax.core/" /etc/soga/dns.yml
                             ;;
                         *)
                             echo -e "${red}无效的地区缩写${plain}"
                             exit 1
                             ;;
                     esac
+
+                    echo -e "${green}DNS修改配置已完成${plain}"
                     ;;
                 *)
-                    echo -e "${red}无效的解锁类型${plain}"
+                    echo -e "${red}无效的选项${plain}"
                     exit 1
                     ;;
             esac
             ;;
         3)
             echo -e "${green}审计配置${plain}"
-
+            
             # 提示用户选择操作类型
             read -p "$(echo -e "${yellow}请选择操作类型：${plain} [1. 删除审计 / 2. 增加审计]: ")" audit_option
 
@@ -274,5 +273,7 @@ if [ -d /etc/soga ]; then
             exit 1
             ;;
     esac
+
+    # 脚本执行完毕
+    exit 0
 fi
- 
