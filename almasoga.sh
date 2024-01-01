@@ -19,7 +19,9 @@ if [ -f /etc/redhat-release ]; then
         yum install wget -y
         echo -e "${green}wget 安装成功${plain}"
     fi
-elif [ -f /etc/debian_version ]; then
+fi
+
+if [ -f /etc/debian_version ]; then
     # Debian
     echo -e "${green}检测到 Debian 系统${plain}"
     # 检测是否存在 wget
@@ -31,10 +33,6 @@ elif [ -f /etc/debian_version ]; then
         apt-get install wget -y
         echo -e "${green}wget 安装成功${plain}"
     fi
-else
-    # 未知系统
-    echo -e "${red}未检测到 CentOS 或 Debian 系统${plain}"
-    exit 1
 fi
 
 # 检测是否存在 /etc/soga 文件夹
@@ -49,7 +47,7 @@ if [ ! -d /etc/soga ]; then
     echo -e "${green}soga 安装完成${plain}"
 else
     # 存在 /etc/soga 文件夹
-    echo -e "${green}/etc/soga 文件夹已存在${plain}"
+    echo -e "${green}/etc/soga 文件夹已存在，跳过 soga 安装${plain}"
 fi
 
 # 脚本执行完毕
