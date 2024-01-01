@@ -176,8 +176,8 @@ if [ -d /etc/soga ]; then
                     echo -e "${green}无效的选项${plain}"
                     exit 1
                     ;;
-            esac
-            ;;
+                    fi
+                    ;;
         4)
             echo -e "${green}Soga重装${plain}"
         
