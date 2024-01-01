@@ -78,30 +78,38 @@ read -p "$(echo -e "${yellow}输入编号: ${plain}")" function_number
 
 case $function_number in
     1)
-        echo -e "${green}Soga配置${plain}"
+       echo -e "${green}Soga配置${plain}"
 
-        # 进入/etc/soga 下载https://github.com/WuYtUgXw/almasoga的soga.conf并替换原来的soga.conf
-        wget -O /etc/soga/soga.conf https://github.com/WuYtUgXw/almasoga/raw/main/soga.conf
-        echo -e "${green}soga.conf 替换成功${plain}"
+        # 提示用户选择操作类型
+        read -p "$(echo -e "${yellow}请选择操作类型：${plain} [1. 文件配置 / 2. 修改配置]: ")" soga_option
 
-        # 提示输入「编号」，这个编号将在/etc/soga的soga.conf的node_id=后填入
-        read -p "$(echo -e "${yellow}请输入编号：${plain}")" node_id
-        sed -i "s/node_id=/node_id=$node_id/" /etc/soga/soga.conf
+        case $soga_option in
+            1)
+                # 进入/etc/soga 下载https://github.com/WuYtUgXw/almasoga的soga.conf并替换原来的soga.conf
+                wget -O /etc/soga/soga.conf https://github.com/WuYtUgXw/almasoga/raw/main/soga.conf
+                echo -e "${green}soga.conf 替换成功${plain}"
 
-        # 保存并重启soga服务
-        systemctl restart soga
-        echo -e "${green}Soga配置已更新并服务已重启${plain}"
-        ;;
-    2)
-        echo -e "${green}修改node_id${plain}"
+                # 提示输入「编号」，这个编号将在/etc/soga的soga.conf的node_id=后填入
+                read -p "$(echo -e "${yellow}请输入编号：${plain}")" node_id
+                sed -i "s/node_id=/node_id=$node_id/" /etc/soga/soga.conf
 
-        # 提示输入「编号」，这个编号将更改/etc/soga的soga.conf的node_id=
-        read -p "$(echo -e "${yellow}请输入新的编号：${plain}")" new_node_id
-        sed -i "s/node_id=.*/node_id=$new_node_id/" /etc/soga/soga.conf
+                # 保存并重启soga服务
+                systemctl restart soga
+                echo -e "${green}Soga配置已更新并服务已重启${plain}"
+                ;;
+            2)
+                # 提示输入「编号」，这个编号将更改/etc/soga的soga.conf的node_id=
+                read -p "$(echo -e "${yellow}请输入新的编号：${plain}")" new_node_id
+                sed -i "s/node_id=.*/node_id=$new_node_id/" /etc/soga/soga.conf
 
-        # 保存并重启soga服务
-        systemctl restart soga
-        echo -e "${green}Soga配置已更新并服务已重启${plain}"
+                # 保存并重启soga服务
+                systemctl restart soga
+                echo -e "${green}Soga配置已更新并服务已重启${plain}"
+                ;;
+            *)
+                echo -e "${green}无效的选项${plain}"
+                ;;
+        esac
         ;;
 
     2)
