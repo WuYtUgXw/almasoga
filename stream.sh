@@ -4143,7 +4143,7 @@ function ScriptTitle() {
         echo -e " ** Test Starts At: $(date)"
         echo ""
     else
-        echo -e "${Font_Green}自用${Font_Suffix} ${Font_Yellow}流媒体检测脚本 ${Font_Suffix}"
+        echo -e "${Font_Green}喵喵喵${Font_Suffix} ${Font_Yellow}自用流媒体检测脚本 ${Font_Suffix}"
         # echo -e "${Font_Purple}脚本适配OS: IDK${Font_Suffix}"
         echo -e " ** 测试时间: $(date '+%Y-%m-%d %H:%M:%S %Z')"
         echo ""
