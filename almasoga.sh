@@ -38,37 +38,27 @@ fi
 # 检测是否存在 /etc/soga 文件夹
 if [ -d /etc/soga ]; then
     # 存在 /etc/soga 文件夹，删除
-    echo -e "${yellow}/etc/soga 文件夹已存在，删除后重新安装 soga${plain}"
-    rm -rf /etc/soga
-fi
-
-# 不存在 /etc/soga 文件夹，开始安装 soga
-echo -e "${yellow}/etc/soga 文件夹不存在，开始安装 soga${plain}"
-bash <(curl -Ls https://raw.githubusercontent.com/vaxilu/soga/master/install.sh)
-
-# 删除审计配置的功能
-echo -e "${green}删除审计配置${plain}"
-# 删除 /etc/soga/blockList 文件内容
-echo -n > /etc/soga/blockList
-echo -e "${green}删除成功${plain}"
-
-# 安装完成后输出消息
-echo -e "${yellow}欢迎使用 Damian 的 soga 配置脚本！${plain}"
-
-# 提示用户选择功能
-echo -e "\n请选择要执行的功能："
-echo -e "${red}1. 增加审计规则${green}"
-echo -e "${red}2. 其他功能${green}"
-
-# 读取用户输入
-read -p "请输入功能编号（1、2）: " function_number
-
-# 根据用户输入执行不同的功能
-case $function_number in
-    1)
-        echo -e "${red}增加审计规则${plain}"
-        # 在 /etc/soga/blockList 文件中添加审计规则
-        cat <<'EOF' >> /etc/soga/blockList
+    echo -e "${yellow}/etc/soga 文件夹已存在${plain}"
+    # 提示用户选择功能
+    echo -e "\n请选择要执行的功能："
+    echo -e "${red}1. 删除审计配置${plain}"
+    echo -e "${red}2. 增加审计规则${plain}"
+    
+    # 读取用户输入
+    read -p "${yellow}请输入功能编号（1、2）: ${plain}" function_number
+    
+    # 根据用户输入执行不同的功能
+    case $function_number in
+        1)
+            echo -e "${red}删除审计配置${plain}"
+            # 删除 /etc/soga/blockList 文件内容
+            echo -n > /etc/soga/blockList
+            echo -e "${green}删除成功${plain}"
+            ;;
+        2)
+            echo -e "${red}增加审计规则${plain}"
+            # 在 /etc/soga/blockList 文件中添加审计规则
+            cat <<'EOF' >> /etc/soga/blockList
 # 每行一个审计规则
 # 纯字符串匹配规则
 360.com
@@ -83,16 +73,20 @@ yunpan.com
 regexp:(.*\\.)(visa|mycard|mastercard|gash|beanfun|bank).*
 # 省略其他规则...
 EOF
-        echo -e "${green}审计规则添加成功${plain}"
-        ;;
-    2)
-        echo -e "${red}其他功能二${plain}"
-        # 添加其他功能二的具体操作
-        ;;
-    *)
-        echo -e "${red}无效的功能编号${plain}"
-        ;;
-esac
+            echo -e "${green}审计规则添加成功${plain}"
+            ;;
+        *)
+            echo -e "${red}无效的功能编号${plain}"
+            ;;
+    esac
+else
+    # 不存在 /etc/soga 文件夹，开始安装 soga
+    echo -e "${yellow}/etc/soga 文件夹不存在，开始安装 soga${plain}"
+    bash <(curl -Ls https://raw.githubusercontent.com/vaxilu/soga/master/install.sh)
+
+    # 安装完成后输出消息
+    echo -e "${yellow}欢迎使用 Damian 的 soga 配置脚本！${plain}"
+fi
 
 # 脚本执行完毕
 exit 0
