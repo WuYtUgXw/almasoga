@@ -7,67 +7,51 @@ yellow='\033[1;33m'
 yellow_light='\033[2;36m'
 plain='\033[0m'
 
-# 检测系统类型
-if [ -f /etc/redhat-release ]; then
-    # CentOS
-    echo -e "${yellow}检测到 CentOS 系统${plain}"
-    # 检测是否存在 wget
-    if command -v wget &> /dev/null; then
-        echo -e "${green}系统已安装 wget${plain}"
-    else
-        # 安装 wget
-        echo -e "${green}系统未安装 wget，开始安装${plain}"
-        yum install wget -y
-        if [ $? -eq 0 ]; then
-            echo -e "${green}wget 安装成功${plain}"
-        else
-            echo -e "${red}wget 安装失败${plain}"
-            exit 1
-        fi
-    fi
-elif [ -f /etc/debian_version ]; then
-    # Debian
-    echo -e "${yellow}检测到 Debian 系统${plain}"
-    # 检测是否存在 wget
-    if command -v wget &> /dev/null; then
-        echo -e "${green}系统已安装 wget${plain}"
-    else
-        # 安装 wget
-        echo -e "${green}系统未安装 wget，开始安装${plain}"
-        apt-get install wget -y
-        if [ $? -eq 0 ]; then
-            echo -e "${green}wget 安装成功${plain}"
-        else
-            echo -e "${red}wget 安装失败${plain}"
-            exit 1
-        fi
-    fi
-else
-    echo -e "${red}不支持的系统类型${plain}"
-    exit 1
-fi
-
 # 检测是否存在 /etc/soga 文件夹
 if [ -d /etc/soga ]; then
-    # 提示用户选择是否删除现有的 soga
-    read -p "$(echo -e "${yellow}是否删除现有 soga 并重新安装？${plain}") [1. 跳过安装 / 2. 删除并安装]: " reinstall_option
+    echo -e "${green}/etc/soga 文件夹已存在，跳过安装 soga${plain}"
+else
+    # 检测系统类型
+    if [ -f /etc/redhat-release ]; then
+        # CentOS
+        echo -e "${yellow}检测到 CentOS 系统${plain}"
+        # 检测是否存在 wget
+        if command -v wget &> /dev/null; then
+            echo -e "${green}系统已安装 wget${plain}"
+        else
+            # 安装 wget
+            echo -e "${green}系统未安装 wget，开始安装${plain}"
+            yum install wget -y
+            if [ $? -eq 0 ]; then
+                echo -e "${green}wget 安装成功${plain}"
+            else
+                echo -e "${red}wget 安装失败${plain}"
+                exit 1
+            fi
+        fi
+    elif [ -f /etc/debian_version ]; then
+        # Debian
+        echo -e "${yellow}检测到 Debian 系统${plain}"
+        # 检测是否存在 wget
+        if command -v wget &> /dev/null; then
+            echo -e "${green}系统已安装 wget${plain}"
+        else
+            # 安装 wget
+            echo -e "${green}系统未安装 wget，开始安装${plain}"
+            apt-get install wget -y
+            if [ $? -eq 0 ]; then
+                echo -e "${green}wget 安装成功${plain}"
+            else
+                echo -e "${red}wget 安装失败${plain}"
+                exit 1
+            fi
+        fi
+    else
+        echo -e "${red}不支持的系统类型${plain}"
+        exit 1
+    fi
 
-    case $reinstall_option in
-        1)
-            echo -e "${green}跳过安装 soga${plain}"
-            ;;
-        2)
-            echo -e "${green}删除现有 soga 并重新安装${plain}"
-            rm -rf /etc/soga
-            ;;
-        *)
-            echo -e "${green}无效的选项，跳过安装 soga${plain}"
-            ;;
-    esac
-fi
-
-# 如果不存在 /etc/soga 文件夹，则开始安装 soga
-if [ ! -d /etc/soga ]; then
+    # 开始安装 soga
     echo -e "${green}/etc/soga 文件夹不存在，开始安装 soga${plain}"
     bash <(curl -Ls https://raw.githubusercontent.com/vaxilu/soga/master/install.sh)
     if [ $? -eq 0 ]; then
@@ -96,7 +80,13 @@ case $function_number in
         echo -e "${green}Soga配置${plain}"
 
         # 提示用户选择操作类型
-        read -p "$(echo -e "${yellow}请选择操作类型：${plain} [1. 文件配置 / 2. 修改配置]: ")" config_option
+        if [ -d /etc/soga ]; then
+            # 如果已安装，则直接选择文件配置
+            config_option=1
+        else
+            # 如果未安装，则提醒用户选择操作类型
+            read -p "$(echo -e "${yellow}请选择操作类型：${plain} [1. 文件配置 / 2. 修改配置]: ")" config_option
+        fi
 
         case $config_option in
             1)
@@ -120,7 +110,7 @@ case $function_number in
                 if [ $? -eq 0 ]; then
                     echo -e "${green}Soga配置已更新并服务已重启${plain}"
                 else
-                    echo -e "${red}重启 soga 服务失败${plain}"
+                    echo -e "${red}Soga服务重启失败${plain}"
                     exit 1
                 fi
                 ;;
@@ -136,12 +126,13 @@ case $function_number in
                 if [ $? -eq 0 ]; then
                     echo -e "${green}Soga配置已更新并服务已重启${plain}"
                 else
-                    echo -e "${red}重启 soga 服务失败${plain}"
+                    echo -e "${red}Soga服务重启失败${plain}"
                     exit 1
                 fi
                 ;;
             *)
                 echo -e "${red}无效的选项${plain}"
+                exit 1
                 ;;
         esac
         ;;
@@ -186,11 +177,13 @@ case $function_number in
                 ;;
             *)
                 echo -e "${green}无效的选项${plain}"
+                exit 1
                 ;;
         esac
         ;;
     *)
         echo -e "${green}无效的操作编号${plain}"
+        exit 1
         ;;
 esac
 
