@@ -78,7 +78,26 @@ read -p "$(echo -e "${yellow}输入编号: ${plain}")" function_number
 case $function_number in
     1)
         echo -e "${green}Soga配置${plain}"
-        # Soga配置的具体操作
+        # 进入/etc/soga 将soga.conf里的type=后填入2board
+        sed -i 's/type=/type=2board/' /etc/soga/soga.conf
+        # 在server_type=后填入ss
+        sed -i 's/server_type=/server_type=ss/' /etc/soga/soga.conf
+        # 在soga_key=后填入cvZeiEgPAKAIMZ2yQvGbJUjErpqmWSqX
+        sed -i 's/soga_key=/soga_key=cvZeiEgPAKAIMZ2yQvGbJUjErpqmWSqX/' /etc/soga/soga.conf
+        # 在api=后填入webapi
+        sed -i 's/api=/api=webapi/' /etc/soga/soga.conf
+        # 在webapi_url=后填入https://www.selom.xyz
+        sed -i 's/webapi_url=/webapi_url=https:\/\/www.selom.xyz/' /etc/soga/soga.conf
+        # 在webapi_key=后填入wDXU51aY20WlllgZ
+        sed -i 's/webapi_key=/webapi_key=wDXU51aY20WlllgZ/' /etc/soga/soga.conf
+
+        # 提示输入「编号」，这个编号将在node_id=后填入
+        read -p "$(echo -e "${yellow}请输入编号：${plain}")" node_id
+        sed -i "s/node_id=/node_id=$node_id/" /etc/soga/soga.conf
+
+        # 保存并重启soga服务
+        systemctl restart soga
+        echo -e "${green}Soga配置已更新并服务已重启${plain}"
         ;;
     2)
         echo -e "${green}解锁配置${plain}"
