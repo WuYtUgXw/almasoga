@@ -4,7 +4,7 @@
 red='\033[1;31m'
 green='\033[1;32m'
 yellow='\033[1;33m'
-yellow_light='\033[0;33m'
+yellow_light='\043[0;33m'
 plain='\033[0m'
 
 # 检测系统类型
@@ -63,7 +63,7 @@ if [ ! -d /etc/soga ]; then
 fi
 
 # 安装完成后输出消息
-echo -e "${yellow}欢迎使用 Damian 的 soga 配置脚本！${plain}"
+echo -e "${yellow_light}欢迎使用 Damian 的 soga 配置脚本！${plain}"
 
 # 提示用户选择功能
 echo -e "${red}请选择要执行的功能：${plain}"
