@@ -75,16 +75,8 @@ echo -e "${green}3. 审计配置${plain}"
 read -p "$(echo -e "${yellow}输入编号: ${plain}")" function_number
 
 # 根据用户输入执行不同的功能
-
 case $function_number in
     1)
-       echo -e "${green}Soga配置${plain}"
-
-        # 提示用户选择操作类型
-        read -p "$(echo -e "${yellow}请选择操作类型：${plain} [1. 文件配置 / 2. 修改配置]: ")" soga_option
-
-        case $soga_option in
-            1)
         echo -e "${green}Soga配置${plain}"
 
         # 提示用户选择操作类型
@@ -122,7 +114,6 @@ case $function_number in
                 ;;
         esac
         ;;
-
     2)
         echo -e "${green}解锁配置${plain}"
         # 下载 https://github.com/WuYtUgXw/almasoga 的配置文件并替换 /etc/soga 原有的配置
