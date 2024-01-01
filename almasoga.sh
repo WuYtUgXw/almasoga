@@ -72,6 +72,7 @@ if [ -d /etc/soga ]; then
     echo -e "${green}1. Soga配置${plain}"
     echo -e "${green}2. 解锁配置${plain}"
     echo -e "${green}3. 审计配置${plain}"
+    echo -e "${green}4. Soga重装${plain}"
 
     # 读取用户输入
     read -p "$(echo -e "${yellow}输入编号: ${plain}")" function_number
@@ -181,7 +182,35 @@ if [ -d /etc/soga ]; then
             echo -e "${green}无效的操作编号${plain}"
             exit 1
             ;;
-    esac
+    4)
+        echo -e "${green}Soga重装${plain}"
+        
+        # Prompt for confirmation
+        read -p "$(echo -e "${yellow}您确定要重新安装 Soga 吗？ (yes/no): ${plain}")" reinstall_choice
+
+        if [ "$reinstall_choice" == "yes" ] || [ "$reinstall_choice" == "y" ]; then
+            echo -e "${yellow_light}正在删除 /etc/soga...${plain}"
+            rm -rf /etc/soga
+
+            # Proceed with the installation
+            echo -e "${green}/etc/soga 文件夹已删除，开始重新安装 soga${plain}"
+            bash <(curl -Ls https://raw.githubusercontent.com/vaxilu/soga/master/install.sh)
+            if [ $? -eq 0 ]; then
+                echo -e "${green}soga 重新安装成功${plain}"
+            else
+                echo -e "${red}soga 安装失败${plain}"
+                exit 1
+            fi
+        else
+            echo -e "${yellow_light}Soga 重装已取消${plain}"
+            exit 0
+        fi
+        ;;
+    *)
+        echo -e "${green}无效的操作编号${plain}"
+        exit 1
+        ;;
+esac
 
     # 脚本执行完毕
     exit 0
