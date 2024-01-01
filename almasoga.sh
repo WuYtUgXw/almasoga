@@ -6,14 +6,6 @@ green='\033[0;32m'
 yellow='\033[0;33m'
 plain='\033[0m'
 
-# 捕获 Ctrl+C 信号
-trap ctrl_c INT
-
-function ctrl_c() {
-    echo -e "${red}脚本已中断${plain}"
-    exit 1
-}
-
 # 检测系统类型
 if [ -f /etc/redhat-release ]; then
     # CentOS
@@ -53,11 +45,12 @@ if [ ! -d /etc/soga ]; then
     # 运行 soga 安装脚本
     bash <(curl -Ls https://raw.githubusercontent.com/vaxilu/soga/master/install.sh)
 
-    # 安装完成后触发 Ctrl+C 中断脚本
-    echo -e "${green}soga 安装完成，脚本将中断${plain}"
-    ctrl_c
+    # 安装完成后输出消息
+    echo -e "${green}soga 安装完成${plain}"
 else
     # 存在 /etc/soga 文件夹
     echo -e "${green}/etc/soga 文件夹已存在${plain}"
-    exit 0
 fi
+
+# 脚本执行完毕
+exit 0
