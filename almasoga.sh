@@ -1,9 +1,9 @@
 #!/bin/bash
 
-# 自定义颜色
-red='\033[0;31m'
-green='\033[0;32m'
-yellow='\033[0;33m'
+# 自定义颜色和字体大小
+red='\033[1;31m'
+green='\033[1;32m'
+yellow='\033[1;33m'
 plain='\033[0m'
 
 # 检测系统类型
@@ -47,32 +47,29 @@ echo -e "${yellow}/etc/soga 文件夹不存在，开始安装 soga${plain}"
 bash <(curl -Ls https://raw.githubusercontent.com/vaxilu/soga/master/install.sh)
 
 # 安装完成后输出消息
-echo -e "${green}soga 安装完成${plain}"
-
-# 显示欢迎消息
-echo -e "\n欢迎使用 Damian 的 soga 配置脚本！"
+echo -e "${yellow}欢迎使用 Damian 的 soga 配置脚本！${plain}"
 
 # 提示用户选择功能
 echo -e "\n请选择要执行的功能："
-echo -e "1. 功能一"
-echo -e "2. 功能二"
-echo -e "3. 功能三"
+echo -e "${red}1. 功能一${plain}"
+echo -e "${red}2. 功能二${plain}"
+echo -e "${red}3. 功能三${plain}"
 
 # 读取用户输入
-read -p "请输入功能编号（1、2、3）: " function_number
+read -p "${yellow}请输入功能编号（1、2、3）: ${plain}" function_number
 
 # 根据用户输入执行不同的功能
 case $function_number in
     1)
-        echo -e "执行功能一"
+        echo -e "${red}执行功能一${plain}"
         # 添加功能一的具体操作
         ;;
     2)
-        echo -e "执行功能二"
+        echo -e "${red}执行功能二${plain}"
         # 添加功能二的具体操作
         ;;
     3)
-        echo -e "执行功能三"
+        echo -e "${red}执行功能三${plain}"
         # 添加功能三的具体操作
         ;;
     *)
