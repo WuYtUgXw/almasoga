@@ -1,7 +1,7 @@
 #!/bin/bash
 shopt -s expand_aliases
 Font_Black="\033[30m"
-Font_Red="\033[31m"
+Font_Red="\033[31m" 
 Font_Green="\033[32m"
 Font_Yellow="\033[33m"
 Font_Blue="\033[34m"
