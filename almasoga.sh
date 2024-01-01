@@ -81,7 +81,13 @@ case $function_number in
         # 进入/etc/soga 将soga.conf里的type=后填入2board
         sed -i 's#type=#type=v2board#' /etc/soga/soga.conf
         # 在server_type=后填入ss
-        sed -i 's#server_type=#server_type=ss#' /etc/soga/soga.conf
+        read -p "$(echo -e "${yellow}请输入 server_type (只能是 ss): ${plain}")" server_type
+        if [ "$server_type" = "ss" ]; then
+            sed -i 's#server_type=#server_type=ss#' /etc/soga/soga.conf
+        else
+            echo -e "${red}无效的 server_type 输入${plain}"
+            exit 1
+        fi
         # 在soga_key=后填入cvZeiEgPAKAIMZ2yQvGbJUjErpqmWSqX
         sed -i 's#soga_key=#soga_key=cvZeiEgPAKAIMZ2yQvGbJUjErpqmWSqX#' /etc/soga/soga.conf
         # 在api=后填入webapi
