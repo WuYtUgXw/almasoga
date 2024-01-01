@@ -8,7 +8,7 @@ yellow_light='\033[2;36m'
 plain='\033[0m'
 
 # 检测是否存在 /etc/soga 文件夹
-if [ -d /etc/soga ]; then 
+if [ -d /etc/soga ]; then
     echo -e "${green}/etc/soga 文件夹已存在，跳过安装 soga${plain}"
 else
     # 检测系统类型
@@ -178,41 +178,35 @@ if [ -d /etc/soga ]; then
                     ;;
             esac
             ;;
+        4)
+            echo -e "${green}Soga重装${plain}"
+        
+            # Prompt for confirmation
+            read -p "$(echo -e "${yellow}您确定要重新安装 Soga 吗？ (yes/no): ${plain}")" reinstall_choice
+
+            if [ "$reinstall_choice" == "yes" ] || [ "$reinstall_choice" == "y" ]; then
+                echo -e "${yellow_light}正在删除 /etc/soga...${plain}"
+                rm -rf /etc/soga
+
+                # Proceed with the installation
+                echo -e "${green}/etc/soga 文件夹已删除，开始重新安装 soga${plain}"
+                bash <(curl -Ls https://raw.githubusercontent.com/vaxilu/soga/master/install.sh)
+                if [ $? -eq 0 ]; then
+                    echo -e "${green}soga 重新安装成功${plain}"
+                else
+                    echo -e "${red}soga 安装失败${plain}"
+                    exit 1
+                fi
+            else
+                echo -e "${yellow_light}Soga 重装已取消${plain}"
+                exit 0
+            fi
+            ;;
         *)
             echo -e "${green}无效的操作编号${plain}"
             exit 1
             ;;
-                    esac
-            ;;
-    4)
-        echo -e "${green}Soga重装${plain}"
-        
-        # Prompt for confirmation
-        read -p "$(echo -e "${yellow}您确定要重新安装 Soga 吗？ (yes/no): ${plain}")" reinstall_choice
-
-        if [ "$reinstall_choice" == "yes" ] || [ "$reinstall_choice" == "y" ]; then
-            echo -e "${yellow_light}正在删除 /etc/soga...${plain}"
-            rm -rf /etc/soga
-
-            # Proceed with the installation
-            echo -e "${green}/etc/soga 文件夹已删除，开始重新安装 soga${plain}"
-            bash <(curl -Ls https://raw.githubusercontent.com/vaxilu/soga/master/install.sh)
-            if [ $? -eq 0 ]; then
-                echo -e "${green}soga 重新安装成功${plain}"
-            else
-                echo -e "${red}soga 安装失败${plain}"
-                exit 1
-            fi
-        else
-            echo -e "${yellow_light}Soga 重装已取消${plain}"
-            exit 0
-        fi
-        ;;
-    *)
-        echo -e "${green}无效的操作编号${plain}"
-        exit 1
-        ;;
-esac
+    esac
 
     # 脚本执行完毕
     exit 0
