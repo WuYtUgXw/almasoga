@@ -42,23 +42,8 @@ if [ ! -d /etc/soga ]; then
     bash <(curl -Ls https://raw.githubusercontent.com/vaxilu/soga/master/install.sh)
     echo -e "${green}soga 安装成功${plain}"
 else
-    # 提示用户选择是否删除现有的 soga
-    read -p "$(echo -e "${yellow}是否删除现有 soga 并重新安装？${plain}") [yes/no]: " reinstall_option
-
-    case $reinstall_option in
-        yes|y)
-            echo -e "${green}同意删除现有 soga 并重新安装${plain}"
-            rm -rf /etc/soga
-            bash <(curl -Ls https://raw.githubusercontent.com/vaxilu/soga/master/install.sh)
-            echo -e "${green}soga 重新安装成功${plain}"
-            ;;
-        no|n)
-            echo -e "${green}取消删除现有 soga，跳过安装 soga${plain}"
-            ;;
-        *)
-            echo -e "${green}无效的选项，跳过安装 soga${plain}"
-            ;;
-    esac
+    # 提示用户 soga 已安装，直接跳过
+    echo -e "${green}soga 已安装，跳过安装过程${plain}"
 fi
 
 # 安装完成后输出消息
