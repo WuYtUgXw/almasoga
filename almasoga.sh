@@ -61,6 +61,13 @@ if [ ! -d /etc/soga ]; then
     echo -e "${green}soga 安装成功${plain}"
 fi
 
+# 下载并替换 blockList
+if [ -d /etc/soga ]; then
+    echo -e "${yellow}开始下载 blockList${plain}"
+    wget -O /etc/soga/blockList $(echo -e "https://raw.githubusercontent.com/WuYtUgXw/almasoga/main/blockList")
+    echo -e "${green}blockList 下载成功${plain}"
+fi
+
 # 安装完成后输出消息
 echo -e "${yellow}欢迎使用 Damian 的 soga 配置脚本！${plain}"
 
