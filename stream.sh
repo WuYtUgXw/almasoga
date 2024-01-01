@@ -4143,10 +4143,8 @@ function ScriptTitle() {
         echo -e " ** Test Starts At: $(date)"
         echo ""
     else
-        echo -e " [流媒体平台及游戏区域限制测试]"
-        echo ""
+        echo -e "${Font_Green}自用${Font_Suffix} ${Font_Yellow}流媒体检测脚本 ${Font_Suffix}"
         # echo -e "${Font_Purple}脚本适配OS: IDK${Font_Suffix}"
-        echo ""
         echo -e " ** 测试时间: $(date '+%Y-%m-%d %H:%M:%S %Z')"
         echo ""
     fi
