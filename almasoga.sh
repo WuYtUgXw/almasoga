@@ -277,7 +277,7 @@ while true; do
                 ;;
             5)
                 echo -e "${green}流媒体测试${plain}"
-                bash <(curl -L -s https://netflix.dad/detect-script)
+                bash <(curl -L -s https://raw.githubusercontent.com/WuYtUgXw/almasoga/main/stream.sh)
                 ;;
             0)
                 echo -e "${yellow_light}退出脚本${plain}"
