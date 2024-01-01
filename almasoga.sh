@@ -53,12 +53,12 @@ echo -n > /etc/soga/blockList
 echo -e "${green}删除成功${plain}"
 
 # 安装完成后输出消息
-echo -e "${yellow}欢迎使用 涩龙 的 soga 配置脚本！${plain}"
+echo -e "${yellow}欢迎使用 Damian 的 soga 配置脚本！${plain}"
 
 # 提示用户选择功能
 echo -e "\n请选择要执行的功能："
-echo -e "${red}1. 增加审计规则${plain}"
-echo -e "${red}2. 其他功能${plain}"
+echo -e "${red}1. 增加审计规则${green}"
+echo -e "${red}2. 其他功能${green}"
 
 # 读取用户输入
 read -p "请输入功能编号（1、2）: " function_number
