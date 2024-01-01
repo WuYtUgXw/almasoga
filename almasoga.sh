@@ -1,163 +1,163 @@
 #!/bin/bash
 
-# カスタムカラーとフォントサイズ
+# 自定义颜色和字体大小
 red='\033[1;31m'
 green='\033[1;32m'
 yellow='\033[1;33m'
 yellow_light='\033[2;36m'
 plain='\033[0m'
 
-# /etc/soga フォルダの存在を確認
+# 检测是否存在 /etc/soga 文件夹
 if [ -d /etc/soga ]; then 
-    echo -e "${green}/etc/soga フォルダは既に存在しています。Sogaのインストールをスキップします。${plain}"
+    echo -e "${green}/etc/soga 文件夹已存在，跳过安装 soga${plain}"
 else
-    # システムの種類を確認
+    # 检测系统类型
     if [ -f /etc/redhat-release ]; then
         # CentOS
-        echo -e "${yellow}CentOS システムを検出しました${plain}"
-        # wget の存在を確認
+        echo -e "${yellow}检测到 CentOS 系统${plain}"
+        # 检测是否存在 wget
         if command -v wget &> /dev/null; then
-            echo -e "${green}システムには wget がインストールされています${plain}"
+            echo -e "${green}系统已安装 wget${plain}"
         else
-            # wget をインストール
-            echo -e "${green}wget がインストールされていません。インストールを開始します${plain}"
+            # 安装 wget
+            echo -e "${green}系统未安装 wget，开始安装${plain}"
             yum install wget -y
             if [ $? -eq 0 ]; then
-                echo -e "${green}wget のインストールが成功しました${plain}"
+                echo -e "${green}wget 安装成功${plain}"
             else
-                echo -e "${red}wget のインストールに失敗しました${plain}"
+                echo -e "${red}wget 安装失败${plain}"
                 exit 1
             fi
         fi
     elif [ -f /etc/debian_version ]; then
         # Debian
-        echo -e "${yellow}Debian システムを検出しました${plain}"
-        # wget の存在を確認
+        echo -e "${yellow}检测到 Debian 系统${plain}"
+        # 检测是否存在 wget
         if command -v wget &> /dev/null; then
-            echo -e "${green}システムには wget がインストールされています${plain}"
+            echo -e "${green}系统已安装 wget${plain}"
         else
-            # wget をインストール
-            echo -e "${green}wget がインストールされていません。インストールを開始します${plain}"
+            # 安装 wget
+            echo -e "${green}系统未安装 wget，开始安装${plain}"
             apt-get install wget -y
             if [ $? -eq 0 ]; then
-                echo -e "${green}wget のインストールが成功しました${plain}"
+                echo -e "${green}wget 安装成功${plain}"
             else
-                echo -e "${red}wget のインストールに失敗しました${plain}"
+                echo -e "${red}wget 安装失败${plain}"
                 exit 1
             fi
         fi
     else
-        echo -e "${red}サポートされていないシステムの種類です${plain}"
+        echo -e "${red}不支持的系统类型${plain}"
         exit 1
     fi
 
-    # Soga のインストールを開始
-    echo -e "${green}/etc/soga フォルダが存在しないため、Sogaのインストールを開始します${plain}"
+    # 开始安装 soga
+    echo -e "${green}/etc/soga 文件夹不存在，开始安装 soga${plain}"
     bash <(curl -Ls https://raw.githubusercontent.com/vaxilu/soga/master/install.sh)
     if [ $? -eq 0 ]; then
-        echo -e "${green}Soga のインストールが成功しました${plain}"
+        echo -e "${green}soga 安装成功${plain}"
     else
-        echo -e "${red}Soga のインストールに失敗しました${plain}"
+        echo -e "${red}soga 安装失败${plain}"
         exit 1
     fi
 fi
 
-# スクリプトの実行が完了しました
+# 脚本执行完毕
 while true; do
-    # インストール完了後のメッセージ
-    echo -e "${yellow_light}涩龙のSoga設定スクリプトをご利用いただきありがとうございます！${plain}"
+    # 安装完成后输出消息
+    echo -e "${yellow_light}欢迎使用 涩龙 的 soga 配置脚本！${plain}"
 
-    # /etc/soga フォルダの存在を再確認
+    # 检测是否存在 /etc/soga 文件夹
     if [ -d /etc/soga ]; then
-        # ユーザーに機能の選択を促す
-        echo -e "${red}実行する機能を選択してください：${plain}"
-        echo -e "${green}1. Sogaの設定${plain}"
-        echo -e "${green}2. ブロック解除の設定${plain}"
-        echo -e "${green}3. オーディットの設定${plain}"
-        echo -e "${green}4. Sogaの再インストール${plain}"
-        echo -e "${green}5. メディアストリームのテスト${plain}"
-        echo -e "${green}0. スクリプトの終了${plain}"
+        # 提示用户选择功能
+        echo -e "${red}请选择要执行的功能：${plain}"
+        echo -e "${green}1. Soga配置${plain}"
+        echo -e "${green}2. 解锁配置${plain}"
+        echo -e "${green}3. 审计配置${plain}"
+        echo -e "${green}4. Soga重装${plain}"
+        echo -e "${green}5. 流媒体测试${plain}"
+        echo -e "${green}0. 退出脚本${plain}"
 
-        # ユーザーの入力を受け取る
-        read -p "$(echo -e "${yellow}番号を入力してください: ${plain}")" function_number
+        # 读取用户输入
+        read -p "$(echo -e "${yellow}输入编号: ${plain}")" function_number
 
-        # ユーザーの入力に基づいて異なる機能を実行する
+        # 根据用户输入执行不同的功能
         case $function_number in
             1)
-                echo -e "${green}Sogaの設定${plain}"
+                echo -e "${green}Soga配置${plain}"
 
-                # ユーザーに操作タイプの選択を促す
-                read -p "$(echo -e "${yellow}操作タイプを選択してください：${plain} [1. ファイル設定 / 2. 設定の変更]: ")" config_option
+                # 提示用户选择操作类型
+                read -p "$(echo -e "${yellow}请选择操作类型：${plain} [1. 文件配置 / 2. 修改配置]: ")" config_option
 
                 case $config_option in
                     1)
-                        echo -e "${green}設定ファイルのダウンロード${plain}"
+                        echo -e "${green}下载配置文件${plain}"
 
-                        # /etc/soga に移動して https://github.com/WuYtUgXw/almasoga の soga.conf をダウンロードし、元の soga.conf を置き換える
+                        # 进入 /etc/soga 下载 https://github.com/WuYtUgXw/almasoga 的 soga.conf 并替换原来的 soga.conf
                         wget -O /etc/soga/soga.conf https://github.com/WuYtUgXw/almasoga/raw/main/soga.conf
                         if [ $? -eq 0 ]; then
-                            echo -e "${green}soga.conf の置換に成功しました${plain}"
+                            echo -e "${green}soga.conf 替换成功${plain}"
                         else
-                            echo -e "${red}soga.conf の置換に失敗しました${plain}"
+                            echo -e "${red}soga.conf 替换失败${plain}"
                             exit 1
                         fi
 
-                        # 「ノードID」を入力してもらい、/etc/soga/soga.conf の node_id= の後に入力した値を入れる
-                        read -p "$(echo -e "${yellow}ノードIDを入力してください：${plain}")" node_id
+                        # 提示输入「编号」，这个编号将在 /etc/soga 的 soga.conf 的 node_id= 后填入
+                        read -p "$(echo -e "${yellow}请输入编号：${plain}")" node_id
                         sed -i "s/node_id=/node_id=$node_id/" /etc/soga/soga.conf
 
-                        # 保存して Soga サービスを再起動
+                        # 保存并重启 soga 服务
                         systemctl restart soga
                         if [ $? -eq 0 ]; then
-                            echo -e "${green}Sogaの設定が更新され、サービスが再起動しました${plain}"
+                            echo -e "${green}Soga配置已更新并服务已重启${plain}"
                         else
-                            echo -e "${red}Sogaサービスの再起動に失敗しました${plain}"
+                            echo -e "${red}Soga服务重启失败${plain}"
                             exit 1
                         fi
                         ;;
                     2)
-                        echo -e "${green}設定ファイルの変更${plain}"
+                        echo -e "${green}修改配置文件${plain}"
 
-                        # 「ノードID」を入力してもらい、/etc/soga/soga.conf の node_id= を入力した値に変更
-                        read -p "$(echo -e "${yellow}新しいノードIDを入力してください：${plain}")" new_node_id
+                        # 提示输入「编号」，这个编号将更改 /etc/soga 的 soga.conf 的 node_id=
+                        read -p "$(echo -e "${yellow}请输入新的编号：${plain}")" new_node_id
                         sed -i "s/node_id=.*/node_id=$new_node_id/" /etc/soga/soga.conf
 
-                        # 保存して Soga サービスを再起動
+                        # 保存并重启 soga 服务
                         systemctl restart soga
                         if [ $? -eq 0 ]; then
-                            echo -e "${green}Sogaの設定が更新され、サービスが再起動しました${plain}"
+                            echo -e "${green}Soga配置已更新并服务已重启${plain}"
                         else
-                            echo -e "${red}Sogaサービスの再起動に失敗しました${plain}"
+                            echo -e "${red}Soga服务重启失败${plain}"
                             exit 1
                         fi
                         ;;
                     *)
-                        echo -e "${red}無効なオプションです${plain}"
+                        echo -e "${red}无效的选项${plain}"
                         exit 1
                         ;;
                 esac
                 ;;
             2)
-                echo -e "${green}ブロック解除の設定${plain}"
+                echo -e "${green}解锁配置${plain}"
                 
-                # ユーザーにブロック解除のタイプの選択を促す
-                read -p "$(echo -e "${yellow}ブロック解除のタイプを選択してください：${plain} [1. DNSブロック解除 / 2. DNS変更]: ")" unlock_option
+                # 提示用户选择解锁配置的类型
+                read -p "$(echo -e "${yellow}请选择解锁配置的类型：${plain} [1. DNS解锁 / 2. DNS修改]: ")" unlock_option
 
                 case $unlock_option in
                     1)
-                        echo -e "${green}DNSブロック解除${plain}"
+                        echo -e "${green}DNS解锁${plain}"
 
-                        # https://github.com/WuYtUgXw/almasoga の dns.yml をダウンロードし、/etc/soga の元の dns.yml を置き換える
+                        # 下载 https://github.com/WuYtUgXw/almasoga 的 dns.yml 并替换 /etc/soga 原有的 dns.yml
                         wget -O /etc/soga/dns.yml https://github.com/WuYtUgXw/almasoga/raw/main/dns.yml
                         if [ $? -eq 0 ]; then
-                            echo -e "${green}dns.yml の置換に成功しました${plain}"
+                            echo -e "${green}dns.yml 替换成功${plain}"
                         else
-                            echo -e "${red}dns.yml の置換に失敗しました${plain}"
+                            echo -e "${red}dns.yml 替换失败${plain}"
                             exit 1
                         fi
 
-                        # 「地域の略称」を入力してもらい、/etc/soga の dns.yml にある sin.core を入力した値に変更
-                        read -p "$(echo -e "${yellow}地域の略称を入力してください：${plain}")" region_abbr
+                        # 提示输入「地区缩写」，例如输入「hk」则将 /etc/soga 的 dns.yml 里的 sin.core 修改为 hkg.core
+                        read -p "$(echo -e "${yellow}请输入地区缩写：${plain}")" region_abbr
 
                         case $region_abbr in
                             hk)
@@ -173,18 +173,18 @@ while true; do
                                 sed -i "s/sin.core/lax.core/" /etc/soga/dns.yml
                                 ;;
                             *)
-                                echo -e "${red}無効な地域略称です${plain}"
+                                echo -e "${red}无效的地区缩写${plain}"
                                 exit 1
                                 ;;
                         esac
 
-                        echo -e "${green}DNSブロック解除の設定が完了しました${plain}"
+                        echo -e "${green}DNS解锁配置已完成${plain}"
                         ;;
                     2)
-                        echo -e "${green}DNS変更${plain}"
+                        echo -e "${green}DNS修改${plain}"
 
-                        # 「地域の略称」を入力してもらい、/etc/soga の dns.yml にある sin.core を入力した値に変更
-                        read -p "$(echo -e "${yellow}地域の略称を入力してください：${plain}")" region_abbr
+                        # 提示输入「地区缩写」，例如输入「hk」则将 /etc/soga 的 dns.yml 里的 sin.core 修改为 hkg.core
+                        read -p "$(echo -e "${yellow}请输入地区缩写：${plain}")" region_abbr
 
                         case $region_abbr in
                             hk)
@@ -200,94 +200,93 @@ while true; do
                                 replace_rules="s/sin.core/lax.core/;s/hkg.core/lax.core/;s/nrt.core/lax.core/;s/lax.core/lax.core/;"
                                 ;;
                             *)
-                                echo -e "${red}無効な地域略称です: $region_abbr${plain}"
+                                echo -e "${red}无效的地区缩写: $region_abbr${plain}"
                                 exit 1
                                 ;;
                         esac
 
-                        # 置換ルールを適用
+                        # 应用替换规则
                         sed -i "${replace_rules}" /etc/soga/dns.yml
 
-                        echo -e "${green}DNS変更の設定が完了しました${plain}"
+                        echo -e "${green}DNS修改配置已完成${plain}"
                         ;;
                     *)
-                        echo -e "${red}無効なオプションです${plain}"
+                        echo -e "${red}无效的选项${plain}"
                         exit 1
                         ;;
                 esac
                 ;;
-3)
-    echo -e "${green}監査設定${plain}"
+            3)
+                echo -e "${green}审计配置${plain}"
+                
+                # 提示用户选择操作类型
+                read -p "$(echo -e "${yellow}请选择操作类型：${plain} [1. 删除审计 / 2. 增加审计]: ")" audit_option
 
-    # ユーザーに操作タイプを選択するように促す
-    read -p "$(echo -e "${yellow}操作タイプの選択：${plain} [1. 監査の削除 / 2. 監査の追加]: ")" audit_option
+                case $audit_option in
+                    1)
+                        echo -e "${green}删除审计${plain}"
+                        # 删除 /etc/soga/blockList 文件内容
+                        echo -n > /etc/soga/blockList
+                        if [ $? -eq 0 ]; then
+                            echo -e "${green}删除成功${plain}"
+                        else
+                            echo -e "${red}删除失败${plain}"
+                            exit 1
+                        fi
+                        ;;
+                    2)
+                        echo -e "${green}增加审计${plain}"
+                        # 下载 https://github.com/WuYtUgXw/almasoga 的 blockList 并替换 /etc/soga 原有的 blockList
+                        wget -O /etc/soga/blockList https://github.com/WuYtUgXw/almasoga/raw/main/blockList
+                        if [ $? -eq 0 ]; then
+                            echo -e "${green}blockList 替换成功${plain}"
+                        else
+                            echo -e "${red}blockList 替换失败${plain}"
+                            exit 1
+                        fi
+                        ;;
+                    *)
+                        echo -e "${green}无效的选项${plain}"
+                        exit 1
+                        ;;
+                esac
+                ;;
+            4)
+                echo -e "${green}Soga重装${plain}"
+                
+                # Prompt for confirmation
+                read -p "$(echo -e "${yellow}您确定要重新安装 Soga 吗？ (yes/no): ${plain}")" reinstall_choice
 
-    case $audit_option in
-        1)
-            echo -e "${green}監査の削除${plain}"
-            # /etc/soga/blockList ファイルの内容を削除
-            echo -n > /etc/soga/blockList
-            if [ $? -eq 0 ]; then
-                echo -e "${green}削除成功${plain}"
-            else
-                echo -e "${red}削除失敗${plain}"
+                if [ "$reinstall_choice" == "yes" ] || [ "$reinstall_choice" == "y" ]; then
+                    echo -e "${yellow_light}正在删除 /etc/soga...${plain}"
+                    rm -rf /etc/soga
+
+                    # Proceed with the installation
+                    echo -e "${green}/etc/soga 文件夹已删除，开始重新安装 soga${plain}"
+                    bash <(curl -Ls https://raw.githubusercontent.com/vaxilu/soga/master/install.sh)
+                    if [ $? -eq 0 ]; then
+                        echo -e "${green}soga 重新安装成功${plain}"
+                    else
+                        echo -e "${red}soga 安装失败${plain}"
+                        exit 1
+                    fi
+                else
+                    echo -e "${yellow_light}Soga 重装已取消${plain}"
+                    exit 0
+                fi
+                ;;
+            5)
+                echo -e "${green}流媒体测试${plain}"
+                bash <(curl -L -s https://netflix.dad/detect-script)
+                ;;
+            0)
+                echo -e "${yellow_light}退出脚本${plain}"
+                exit 0
+                ;;
+            *)
+                echo -e "${green}无效的操作编号${plain}"
                 exit 1
-            fi
-            ;;
-        2)
-            echo -e "${green}監査の追加${plain}"
-            # https://github.com/WuYtUgXw/almasoga の blockList をダウンロードし、/etc/soga の既存の blockList を置き換える
-            wget -O /etc/soga/blockList https://github.com/WuYtUgXw/almasoga/raw/main/blockList
-            if [ $? -eq 0 ]; then
-                echo -e "${green}blockList の置き換え成功${plain}"
-            else
-                echo -e "${red}blockList の置き換え失敗${plain}"
-                exit 1
-            fi
-            ;;
-        *)
-            echo -e "${green}無効なオプション${plain}"
-            exit 1
-            ;;
-    esac
-    ;;
-4)
-    echo -e "${green}Soga再インストール${plain}"
-
-    # 確認を求める
-    read -p "$(echo -e "${yellow}Sogaを再インストールしますか？ (yes/no): ${plain}")" reinstall_choice
-
-    if [ "$reinstall_choice" == "yes" ] || [ "$reinstall_choice" == "y" ]; then
-        echo -e "${yellow_light}/etc/soga を削除しています...${plain}"
-        rm -rf /etc/soga
-
-        # インストールを進める
-        echo -e "${green}/etc/soga フォルダが削除されました。Sogaの再インストールを開始します${plain}"
-        bash <(curl -Ls https://raw.githubusercontent.com/vaxilu/soga/master/install.sh)
-        if [ $? -eq 0 ]; then
-            echo -e "${green}Sogaの再インストール成功${plain}"
-        else
-            echo -e "${red}Sogaのインストール失敗${plain}"
-            exit 1
-        fi
-    else
-        echo -e "${yellow_light}Soga再インストールはキャンセルされました${plain}"
-        exit 0
+                ;;
+        esac
     fi
-    ;;
-5)
-    echo -e "${green}ストリーミングテスト${plain}"
-    bash <(curl -L -s https://netflix.dad/detect-script)
-    ;;
-0)
-    echo -e "${yellow_light}スクリプトの終了${plain}"
-    exit 0
-    ;;
-*)
-    echo -e "${green}無効な操作番号${plain}"
-    exit 1
-    ;;
-esac
-fi
 done
-
