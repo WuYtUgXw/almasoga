@@ -75,8 +75,7 @@ echo -e "${green}3. 审计配置${plain}"
 read -p "$(echo -e "${yellow}输入编号: ${plain}")" function_number
 
 # 根据用户输入执行不同的功能
-case $function_number in
-    1)
+
 case $function_number in
     1)
         echo -e "${green}Soga配置${plain}"
