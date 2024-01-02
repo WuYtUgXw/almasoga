@@ -14,6 +14,7 @@ function main_menu {
     echo -e "${YELLOW}1: ${WHITE}wget配置${NC}"
     echo -e "${YELLOW}2: ${WHITE}Docker配置${NC}"
     echo -e "${YELLOW}3: ${WHITE}MySQL配置${NC}"
+    echo -e "${YELLOW}4: ${WHITE}TCP调优${NC}"
     echo -e "${YELLOW}0: ${WHITE}退出脚本${NC}"
 }
 
@@ -36,6 +37,12 @@ function mysql_menu {
     echo -e "${YELLOW}1: ${WHITE}安装${NC}"
     echo -e "${YELLOW}2: ${WHITE}卸载${NC}"
     echo -e "${YELLOW}3: ${WHITE}返回上级菜单${NC}"
+}
+
+# 二级选项 TCP调优
+function tcp_tuning_menu {
+    echo -e "${YELLOW}1: ${WHITE}运行 TCP调优脚本${NC}"
+    echo -e "${YELLOW}2: ${WHITE}返回上级菜单${NC}"
 }
 
 while true; do
@@ -106,6 +113,25 @@ while true; do
                         sudo apt-get remove -y mysql-server
                         ;;
                     3)
+                        # 返回上级菜单
+                        break
+                        ;;
+                    *)
+                        echo -e "${RED}无效的选择${NC}"
+                        ;;
+                esac
+            done
+            ;;
+        4)
+            while true; do
+                tcp_tuning_menu
+                read -p "请选择 TCP调优 配置选项 (输入对应数字): " tcp_choice
+                case $tcp_choice in
+                    1)
+                        # 运行 TCP调优脚本
+                        wget http://sh.nekoneko.cloud/tools.sh -O tools.sh && bash tools.sh
+                        ;;
+                    2)
                         # 返回上级菜单
                         break
                         ;;
