@@ -55,13 +55,16 @@ function docker_menu {
 function bt_menu {
     echo -e "${YELLOW}1: ${WHITE}安装中文宝塔${NC}"
     echo -e "${YELLOW}2: ${WHITE}安装国际宝塔${NC}"
+    echo -e "${YELLOW}3: ${WHITE}卸载宝塔${NC}"
     echo -e "${YELLOW}0: ${WHITE}返回上级菜单${NC}"
 }
 
 # 二级选项 TCP调优
 function tcp_tuning_menu {
     echo -e "${YELLOW}1: ${WHITE}运行 TCP调优脚本${NC}"
-    echo -e "${YELLOW}2: ${WHITE}返回上级菜单${NC}"
+    echo -e "${YELLOW}2: ${WHITE}备份 TCP调优数据${NC}"
+    echo -e "${YELLOW}3: ${WHITE}还原 TCP调优数据${NC}"
+    echo -e "${YELLOW}4: ${WHITE}返回上级菜单${NC}"
 }
 
 # 二级选项 Curl 配置
@@ -172,6 +175,14 @@ while true; do
                             sudo yum install -y wget && wget -O install.sh http://www.aapanel.com/script/install_6.0_en.sh && bash install.sh aapanel
                         fi
                         ;;
+                    3)
+                        # 卸载宝塔
+                        if [[ $SYSTEM_TYPE == "debian" ]]; then
+                            sudo apt-get install -y wget && wget -O install.sh https://download.bt.cn/install/install_6.0.sh && sh install.sh uninstall
+                        elif [[ $SYSTEM_TYPE == "centos" ]]; then
+                            sudo yum install -y wget && wget -O install.sh https://download.bt.cn/install/install_6.0.sh && sh install.sh uninstall
+                        fi
+                        ;;
                     0)
                         # 返回上级菜单
                         break
@@ -189,9 +200,18 @@ while true; do
                 case $tcp_choice in
                     1)
                         # 运行 TCP调优脚本
+                        backup_tcp_tuning
                         wget http://sh.nekoneko.cloud/tools.sh -O tools.sh && bash tools.sh
                         ;;
                     2)
+                        # 备份 TCP调优数据
+                        backup_tcp_tuning
+                        ;;
+                    3)
+                        # 还原 TCP调优数据
+                        restore_tcp_tuning
+                        ;;
+                    4)
                         # 返回上级菜单
                         break
                         ;;
@@ -271,6 +291,18 @@ while true; do
             ;;
     esac
 done
+
+# 备份TCP调优数据
+function backup_tcp_tuning {
+    sudo cp /etc/sysctl.conf /etc/sysctl.conf.bak
+    sudo cp /etc/security/limits.conf /etc/security/limits.conf.bak
+}
+
+# 还原TCP调优数据
+function restore_tcp_tuning {
+    sudo cp /etc/sysctl.conf.bak /etc/sysctl.conf
+    sudo cp /etc/security/limits.conf.bak /etc/security/limits.conf
+}
 
 # 备份BBR
 function backup_bbr {
