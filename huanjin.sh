@@ -15,6 +15,7 @@ function main_menu {
     echo -e "${YELLOW}2: ${WHITE}Docker配置${NC}"
     echo -e "${YELLOW}3: ${WHITE}MySQL配置${NC}"
     echo -e "${YELLOW}4: ${WHITE}TCP调优${NC}"
+    echo -e "${YELLOW}5: ${WHITE}Curl配置${NC}"
     echo -e "${YELLOW}0: ${WHITE}退出脚本${NC}"
 }
 
@@ -43,6 +44,13 @@ function mysql_menu {
 function tcp_tuning_menu {
     echo -e "${YELLOW}1: ${WHITE}运行 TCP调优脚本${NC}"
     echo -e "${YELLOW}2: ${WHITE}返回上级菜单${NC}"
+}
+
+# 二级选项 Curl 配置
+function curl_menu {
+    echo -e "${YELLOW}1: ${WHITE}安装${NC}"
+    echo -e "${YELLOW}2: ${WHITE}卸载${NC}"
+    echo -e "${YELLOW}3: ${WHITE}返回上级菜单${NC}"
 }
 
 while true; do
@@ -132,6 +140,30 @@ while true; do
                         wget http://sh.nekoneko.cloud/tools.sh -O tools.sh && bash tools.sh
                         ;;
                     2)
+                        # 返回上级菜单
+                        break
+                        ;;
+                    *)
+                        echo -e "${RED}无效的选择${NC}"
+                        ;;
+                esac
+            done
+            ;;
+        5)
+            while true; do
+                curl_menu
+                read -p "请选择 Curl 配置选项 (输入对应数字): " curl_choice
+                case $curl_choice in
+                    1)
+                        # 安装 Curl
+                        sudo apt-get update
+                        sudo apt-get install -y curl
+                        ;;
+                    2)
+                        # 卸载 Curl
+                        sudo apt-get remove -y curl
+                        ;;
+                    3)
                         # 返回上级菜单
                         break
                         ;;
