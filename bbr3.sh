@@ -26,4 +26,23 @@ prompt_user && echo 'deb [signed-by=/usr/share/keyrings/xanmod-archive-keyring.g
 echo "步骤 4：查看当前VPS适合的版本"
 prompt_user && wget -q https://dl.xanmod.org/check_x86-64_psabi.sh && chmod +x check_x86-64_psabi.sh && ./check_x86-64_psabi.sh
 
+# 步骤 5：安装 linux-xanmod-x64v4 内核
+echo "步骤 5：安装 linux-xanmod-x64v4 内核"
+prompt_user && apt install -y linux-xanmod-x64v4
+
+# 步骤 6：配置 sysctl.conf 文件
+echo "步骤 6：配置 sysctl.conf 文件"
+prompt_user && cat > /etc/sysctl.conf << EOF
+net.core.default_qdisc=fq_pie
+net.ipv4.tcp_congestion_control=bbr
+EOF
+
+# 步骤 7：应用 sysctl 配置
+echo "步骤 7：应用 sysctl 配置"
+prompt_user && sysctl -p
+
+# 步骤 8：重启系统
+echo "步骤 8：重启系统"
+prompt_user && reboot
+
 echo "脚本执行完毕。"
