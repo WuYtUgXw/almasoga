@@ -1,13 +1,11 @@
 #!/bin/bash
 
-# 定义颜色
 RED='\033[0;31m'
 GREEN='\033[0;32m'
 YELLOW='\033[0;33m'
 WHITE='\033[1;37m'
-NC='\033[0m' # No Color
+NC='\033[0m'
 
-# 获取系统类型
 function detect_system {
     if [[ -r /etc/os-release ]]; then
         source /etc/os-release
@@ -25,7 +23,6 @@ function detect_system {
     fi
 }
 
-# 一级选项
 function main_menu {
     echo -e "${YELLOW}欢迎使用环境配置脚本！${NC}"
     echo -e "${YELLOW}1: ${WHITE}wget配置${NC}"
@@ -37,21 +34,18 @@ function main_menu {
     echo -e "${YELLOW}0: ${WHITE}退出脚本${NC}"
 }
 
-# 二级选项 wget 配置
 function wget_menu {
     echo -e "${YELLOW}1: ${WHITE}安装${NC}"
     echo -e "${YELLOW}2: ${WHITE}卸载${NC}"
     echo -e "${YELLOW}3: ${WHITE}返回上级菜单${NC}"
 }
 
-# 二级选项 Docker 配置
 function docker_menu {
     echo -e "${YELLOW}1: ${WHITE}安装${NC}"
     echo -e "${YELLOW}2: ${WHITE}卸载${NC}"
     echo -e "${YELLOW}3: ${WHITE}返回上级菜单${NC}"
 }
 
-# 二级选项 宝塔配置
 function bt_menu {
     echo -e "${YELLOW}1: ${WHITE}安装中文宝塔${NC}"
     echo -e "${YELLOW}2: ${WHITE}安装国际宝塔${NC}"
@@ -59,30 +53,25 @@ function bt_menu {
     echo -e "${YELLOW}0: ${WHITE}返回上级菜单${NC}"
 }
 
-# 二级选项 TCP调优
 function tcp_tuning_menu {
     echo -e "${YELLOW}1: ${WHITE}运行 TCP调优脚本${NC}"
-    echo -e "${YELLOW}2: ${WHITE}备份 TCP调优数据${NC}"
-    echo -e "${YELLOW}3: ${WHITE}还原 TCP调优数据${NC}"
-    echo -e "${YELLOW}4: ${WHITE}返回上级菜单${NC}"
+    echo -e "${YELLOW}2: ${WHITE}返回上级菜单${NC}"
 }
 
-# 二级选项 Curl 配置
 function curl_menu {
     echo -e "${YELLOW}1: ${WHITE}安装${NC}"
     echo -e "${YELLOW}2: ${WHITE}卸载${NC}"
     echo -e "${YELLOW}3: ${WHITE}返回上级菜单${NC}"
 }
 
-# 二级选项 BBR3配置
 function bbr3_menu {
     echo -e "${YELLOW}1: ${WHITE}安装${NC}"
-    echo -e "${YELLOW}2: ${WHITE}还原${NC}"
-    echo -e "${YELLOW}3: ${WHITE}卸载${NC}"
-    echo -e "${YELLOW}4: ${WHITE}返回上级菜单${NC}"
+    echo -e "${YELLOW}2: ${WHITE}备份${NC}"
+    echo -e "${YELLOW}3: ${WHITE}还原${NC}"
+    echo -e "${YELLOW}4: ${WHITE}卸载${NC}"
+    echo -e "${YELLOW}5: ${WHITE}返回上级菜单${NC}"
 }
 
-# 获取系统类型
 detect_system
 
 while true; do
@@ -96,7 +85,6 @@ while true; do
                 read -p "请选择 wget 配置选项 (输入对应数字): " wget_choice
                 case $wget_choice in
                     1)
-                        # 安装 wget
                         if [[ $SYSTEM_TYPE == "debian" ]]; then
                             sudo apt-get update
                             sudo apt-get install -y wget
@@ -105,7 +93,6 @@ while true; do
                         fi
                         ;;
                     2)
-                        # 卸载 wget
                         if [[ $SYSTEM_TYPE == "debian" ]]; then
                             sudo apt-get remove -y wget
                         elif [[ $SYSTEM_TYPE == "centos" ]]; then
@@ -113,7 +100,6 @@ while true; do
                         fi
                         ;;
                     3)
-                        # 返回上级菜单
                         break
                         ;;
                     *)
@@ -128,7 +114,6 @@ while true; do
                 read -p "请选择 Docker 配置选项 (输入对应数字): " docker_choice
                 case $docker_choice in
                     1)
-                        # 安装 Docker
                         if [[ $SYSTEM_TYPE == "debian" ]]; then
                             sudo apt-get update
                             sudo apt-get install -y docker.io
@@ -137,7 +122,6 @@ while true; do
                         fi
                         ;;
                     2)
-                        # 卸载 Docker
                         if [[ $SYSTEM_TYPE == "debian" ]]; then
                             sudo apt-get remove -y docker.io
                         elif [[ $SYSTEM_TYPE == "centos" ]]; then
@@ -145,7 +129,6 @@ while true; do
                         fi
                         ;;
                     3)
-                        # 返回上级菜单
                         break
                         ;;
                     *)
@@ -160,7 +143,6 @@ while true; do
                 read -p "请选择宝塔配置选项 (输入对应数字): " bt_choice
                 case $bt_choice in
                     1)
-                        # 安装中文宝塔
                         if [[ $SYSTEM_TYPE == "debian" ]]; then
                             sudo apt-get install -y wget && wget -O install.sh https://download.bt.cn/install/install_6.0.sh && sh install.sh ed8484bec
                         elif [[ $SYSTEM_TYPE == "centos" ]]; then
@@ -168,7 +150,6 @@ while true; do
                         fi
                         ;;
                     2)
-                        # 安装国际宝塔
                         if [[ $SYSTEM_TYPE == "debian" ]]; then
                             sudo apt-get install -y wget && wget -O install.sh http://www.aapanel.com/script/install_6.0_en.sh && bash install.sh aapanel
                         elif [[ $SYSTEM_TYPE == "centos" ]]; then
@@ -176,7 +157,6 @@ while true; do
                         fi
                         ;;
                     3)
-                        # 卸载宝塔
                         if [[ $SYSTEM_TYPE == "debian" ]]; then
                             sudo apt-get install -y wget && wget -O install.sh https://download.bt.cn/install/install_6.0.sh && sh install.sh uninstall
                         elif [[ $SYSTEM_TYPE == "centos" ]]; then
@@ -184,7 +164,6 @@ while true; do
                         fi
                         ;;
                     0)
-                        # 返回上级菜单
                         break
                         ;;
                     *)
@@ -199,20 +178,9 @@ while true; do
                 read -p "请选择 TCP调优 配置选项 (输入对应数字): " tcp_choice
                 case $tcp_choice in
                     1)
-                        # 运行 TCP调优脚本
-                        backup_tcp_tuning
                         wget http://sh.nekoneko.cloud/tools.sh -O tools.sh && bash tools.sh
                         ;;
                     2)
-                        # 备份 TCP调优数据
-                        backup_tcp_tuning
-                        ;;
-                    3)
-                        # 还原 TCP调优数据
-                        restore_tcp_tuning
-                        ;;
-                    4)
-                        # 返回上级菜单
                         break
                         ;;
                     *)
@@ -227,7 +195,6 @@ while true; do
                 read -p "请选择 Curl 配置选项 (输入对应数字): " curl_choice
                 case $curl_choice in
                     1)
-                        # 安装 Curl
                         if [[ $SYSTEM_TYPE == "debian" ]]; then
                             sudo apt-get update
                             sudo apt-get install -y curl
@@ -236,7 +203,6 @@ while true; do
                         fi
                         ;;
                     2)
-                        # 卸载 Curl
                         if [[ $SYSTEM_TYPE == "debian" ]]; then
                             sudo apt-get remove -y curl
                         elif [[ $SYSTEM_TYPE == "centos" ]]; then
@@ -244,7 +210,6 @@ while true; do
                         fi
                         ;;
                     3)
-                        # 返回上级菜单
                         break
                         ;;
                     *)
@@ -259,20 +224,19 @@ while true; do
                 read -p "请选择 BBR3 配置选项 (输入对应数字): " bbr3_choice
                 case $bbr3_choice in
                     1)
-                        # 安装 BBR3
                         backup_bbr
                         bash <(curl -sSL https://raw.githubusercontent.com/WuYtUgXw/almasoga/main/bbr3.sh)
                         ;;
                     2)
-                        # 还原 BBR
-                        restore_bbr
+                        backup_bbr
                         ;;
                     3)
-                        # 卸载 BBR
-                        uninstall_bbr
+                        restore_bbr
                         ;;
                     4)
-                        # 返回上级菜单
+                        uninstall_bbr
+                        ;;
+                    5)
                         break
                         ;;
                     *)
@@ -282,7 +246,6 @@ while true; do
             done
             ;;
         0)
-            # 退出脚本
             echo -e "${GREEN}脚本执行完成${NC}"
             exit 0
             ;;
@@ -292,19 +255,6 @@ while true; do
     esac
 done
 
-# 备份TCP调优数据
-function backup_tcp_tuning {
-    sudo cp /etc/sysctl.conf /etc/sysctl.conf.bak
-    sudo cp /etc/security/limits.conf /etc/security/limits.conf.bak
-}
-
-# 还原TCP调优数据
-function restore_tcp_tuning {
-    sudo cp /etc/sysctl.conf.bak /etc/sysctl.conf
-    sudo cp /etc/security/limits.conf.bak /etc/security/limits.conf
-}
-
-# 备份BBR
 function backup_bbr {
     if [[ $SYSTEM_TYPE == "debian" ]]; then
         sudo cp /usr/lib/modules/$(uname -r)/kernel/net/ipv4/tcp_bbr/bbr.ko /usr/lib/modules/$(uname -r)/kernel/net/ipv4/tcp_bbr/bbr.ko.bak
@@ -313,7 +263,6 @@ function backup_bbr {
     fi
 }
 
-# 还原BBR
 function restore_bbr {
     if [[ $SYSTEM_TYPE == "debian" ]]; then
         sudo cp /usr/lib/modules/$(uname -r)/kernel/net/ipv4/tcp_bbr/bbr.ko.bak /usr/lib/modules/$(uname -r)/kernel/net/ipv4/tcp_bbr/bbr.ko
@@ -322,7 +271,6 @@ function restore_bbr {
     fi
 }
 
-# 卸载BBR
 function uninstall_bbr {
     if [[ $SYSTEM_TYPE == "debian" ]]; then
         sudo rm -f /usr/lib/modules/$(uname -r)/kernel/net/ipv4/tcp_bbr/bbr.ko
