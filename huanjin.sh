@@ -31,6 +31,7 @@ function main_menu {
     echo -e "${YELLOW}4: ${WHITE}TCP调优${NC}"
     echo -e "${YELLOW}5: ${WHITE}Curl配置${NC}"
     echo -e "${YELLOW}6: ${WHITE}BBR3配置${NC}"
+    echo -e "${YELLOW}7: ${WHITE}禁用IPv6网络${NC}"
     echo -e "${YELLOW}0: ${WHITE}退出脚本${NC}"
 }
 
@@ -245,6 +246,9 @@ while true; do
                 esac
             done
             ;;
+        7)
+            disable_ipv6
+            ;;
         0)
             echo -e "${GREEN}脚本执行完成${NC}"
             exit 0
@@ -276,5 +280,21 @@ function uninstall_bbr {
         sudo rm -f /usr/lib/modules/$(uname -r)/kernel/net/ipv4/tcp_bbr/bbr.ko
     elif [[ $SYSTEM_TYPE == "centos" ]]; then
         sudo rm -f /lib/modules/$(uname -r)/kernel/net/ipv4/tcp_bbr/bbr.ko
+    fi
+}
+
+function disable_ipv6 {
+    if [[ $SYSTEM_TYPE == "debian" ]]; then
+        sudo sed -i '/net.ipv6.conf.all.disable_ipv6/d' /etc/sysctl.conf
+        sudo sed -i '/net.ipv6.conf.default.disable_ipv6/d' /etc/sysctl.conf
+        echo "net.ipv6.conf.all.disable_ipv6 = 1" | sudo tee -a /etc/sysctl.conf
+        echo "net.ipv6.conf.default.disable_ipv6 = 1" | sudo tee -a /etc/sysctl.conf
+        sudo sysctl -p
+    elif [[ $SYSTEM_TYPE == "centos" ]]; then
+        sudo sed -i '/net.ipv6.conf.all.disable_ipv6/d' /etc/sysctl.conf
+        sudo sed -i '/net.ipv6.conf.default.disable_ipv6/d' /etc/sysctl.conf
+        echo "net.ipv6.conf.all.disable_ipv6 = 1" | sudo tee -a /etc/sysctl.conf
+        echo "net.ipv6.conf.default.disable_ipv6 = 1" | sudo tee -a /etc/sysctl.conf
+        sudo sysctl -p
     fi
 }
