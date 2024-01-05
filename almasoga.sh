@@ -4,7 +4,7 @@ import sys
 def show_functions():
   """
   显示功能列表
-  """
+  """ 
   print(f"{Fore.RED}请选择要执行的功能：{Style.RESET_ALL}")
   print(f"{Fore.GREEN}1. Soga配置{Style.RESET_ALL}")
   print(f"{Fore.GREEN}2. 解锁配置{Style.RESET_ALL}")
