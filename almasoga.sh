@@ -9,7 +9,7 @@ yellow_light='\033[2;36m'
 blink='\033[5m'
 reset='\033[0m'
 
-# Function to check and install wget
+# Function to check and install wget 
 install_wget() {
     if ! command -v wget &> /dev/null; then
         echo -e "${green}系统未安装 wget，开始安装${reset}"
