@@ -25,3 +25,31 @@ else
     echo "跳过安装"
   fi
 fi
+
+# 欢迎用户使用飒珑常用配置脚本
+echo "欢迎使用飒珑常用配置脚本"
+
+# 显示菜单
+echo "1.配置soga"
+echo "2.配置审计"
+echo "3.配置解锁"
+read -p "请选择： " choice
+
+# 执行相应的操作
+case $choice in
+  1)
+    # 配置soga
+    ./config_soga.sh
+    ;;
+  2)
+    # 配置审计
+    ./config_audit.sh
+    ;;
+  3)
+    # 配置解锁
+    ./config_unlock.sh
+    ;;
+  *)
+    echo "无效的选择"
+    ;;
+esac
