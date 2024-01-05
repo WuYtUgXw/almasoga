@@ -2,8 +2,14 @@
 
 # 检测 Soga 是否已安装
 if [ ! -d "/etc/soga" ]; then
-  echo "Soga 未安装"
-  exit 1
+  # Soga 未安装
+  echo "Soga 未安装，是否安装？ (yes/no)"
+  answer=$(read -p "")
+  if [ "$answer" == "y" ] || [ "$answer" == "yes" ]; then
+    curl -Ls https://raw.githubusercontent.com/vaxilu/soga/master/install.sh | bash
+  else
+    echo "Soga 安装已取消"
+  fi
 fi
 
 # 显示功能列表
