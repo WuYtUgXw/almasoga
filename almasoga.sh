@@ -10,7 +10,7 @@ elif [ -f /etc/centos-release ]; then
 fi
 
 # 检测soga是否存在
-if [ -f /etc/soga ]; then
+if [ -d /etc/soga ]; then
   # 存在
   echo "soga已安装，跳过安装"
   exit 0
