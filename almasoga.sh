@@ -13,6 +13,7 @@ fi
 if [ -f /etc/soga ]; then
   # 存在
   echo "soga已安装，跳过安装"
+  exit 0
 else
   # 不存在
   read -p "未检测到soga，是否安装？(yes/no) " answer
