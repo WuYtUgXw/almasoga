@@ -9,8 +9,9 @@ install_expect() {
     if [[ "$(command -v apt-get)" ]]; then
       sudo apt-get update
       sudo apt-get install -y expect
-    elif [[ "$(command -v yum)" ]]; then
-      sudo yum install -y expect
+    elif [[ "$(command -v apt)" ]]; then
+      sudo apt update
+      sudo apt install -y expect
     else
       echo "无法安装 expect 工具，请手动安装。"
       exit 1
