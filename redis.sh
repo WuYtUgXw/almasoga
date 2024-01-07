@@ -1,27 +1,29 @@
 #!/bin/bash
 
 # ANSI Escape Codes for colors
-YELLOW='\033[1;33m'
-GREEN='\033[1;32m'
-RESET='\033[0m'
+yellow='\033[1;33m'
+green='\033[1;32m'
+reset='\033[0m'
 
-read -p "${YELLOW}是否安装 Redis？（${GREEN}1是${YELLOW}，${GREEN}2否${YELLOW}）: ${RESET}" install_option
+echo -e "${yellow}欢迎使用 Redis 安装和配置脚本.${reset}"
+
+read -p "是否安装 Redis？（${green}1是${reset}，${green}2否${reset}）: " install_option
 
 if [ "$install_option" == "1" ]; then
     # 检测系统类型
     if [ -f /etc/redhat-release ]; then
         # CentOS 系统
-        echo "${YELLOW}Detected CentOS system.${RESET}"
+        echo -e "${yellow}检测到 CentOS 系统.${reset}"
         sudo yum install epel-release -y
         sudo yum install redis -y
     elif [ -f /etc/lsb-release ]; then
         # Ubuntu/Debian 系统
-        echo "${YELLOW}Detected Ubuntu/Debian system.${RESET}"
+        echo -e "${yellow}检测到 Ubuntu/Debian 系统.${reset}"
         sudo apt-get update
         sudo apt-get install redis-server -y
     else
         # 未知系统
-        echo "${YELLOW}Unsupported system type.${RESET}"
+        echo -e "${yellow}不支持的系统类型.${reset}"
         exit 1
     fi
 
@@ -31,11 +33,11 @@ if [ "$install_option" == "1" ]; then
     # 设置 Redis 开机自启
     sudo systemctl enable redis
 else
-    echo "${YELLOW}未安装 Redis.${RESET}"
+    echo -e "${yellow}未安装 Redis.${reset}"
     exit 1
 fi
 
-read -p "${YELLOW}是否配置 Redis？（${GREEN}1是${YELLOW}，${GREEN}2否${YELLOW}）: ${RESET}" config_option
+read -p "是否配置 Redis？（${green}1是${reset}，${green}2否${reset}）: " config_option
 
 if [ "$config_option" == "1" ]; then
     # 配置 Redis
@@ -70,11 +72,11 @@ if [ "$config_option" == "1" ]; then
         # 重启 Redis 服务使配置生效
         sudo systemctl restart redis-server
     else
-        echo "${YELLOW}Redis configuration file not found.${RESET}"
+        echo -e "${yellow}未找到 Redis 配置文件.${reset}"
         exit 1
     fi
 else
-    echo "${YELLOW}未配置 Redis.${RESET}"
+    echo -e "${yellow}未配置 Redis.${reset}"
 fi
 
-echo "${GREEN}脚本执行完毕.${RESET}"
+echo -e "${green}脚本执行完毕.${reset}"
