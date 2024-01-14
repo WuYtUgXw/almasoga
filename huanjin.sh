@@ -141,4 +141,15 @@ while true; do
                         echo -e "${RED}Invalid choice${NC}"
                         ;;
                 esac
-            end
+            done
+            ;;
+        # ... (rest of your cases)
+        0)
+            echo -e "${YELLOW}Exiting script.${NC}"
+            exit 0
+            ;;
+        *)
+            echo -e "${RED}Invalid choice${NC}"
+            ;;
+    esac
+done
