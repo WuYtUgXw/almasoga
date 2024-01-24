@@ -1,4 +1,6 @@
 https://sin.core.access.zznet.fun/dns-query:
+  strategy: ipv4_only
+  rules:
     # ---------- > Global Plaform
     # > DAZN
     - domain:dazn-api.com
@@ -13,7 +15,7 @@ https://sin.core.access.zznet.fun/dns-query:
     - domain:hotstar.com
     - domain:hotstarext.com
     # > Disney+
-    - domain:bamgrid.com
+    - domain:disney.api.edge.bamgrid.com
     - domain:disney-plus.net
     - domain:disneyplus.com
     - domain:dssott.com
@@ -28,67 +30,7 @@ https://sin.core.access.zznet.fun/dns-query:
     - domain:nflxvideo.net
     - domain:nflxext.com
     - domain:nflxso.net
-    # > Amazon Prime Video:
-    - domain:d1v5ir2lpwr8os.cloudfront.net
-    - domain:d22qjgkvxw22r6.cloudfront.net
-    - domain:d25xi40x97liuc.cloudfront.net
-    - domain:d27xxe7juh1us6.cloudfront.net
-    - domain:dmqdd6hw24ucf.cloudfront.net
-    - domain:aiv-cdn.net
-    - domain:aiv-delivery.net
-    - domain:amazonvideo.com
-    - domain:atv-ext-eu.amazon.com
-    - domain:atv-ext-fe.amazon.com
-    - domain:atv-ext.amazon.com
-    - domain:atv-ps-eu.amazon.co.uk
-    - domain:atv-ps-eu.amazon.com
-    - domain:atv-ps-fe.amazon.co.jp
-    - domain:atv-ps-fe.amazon.com
-    - domain:atv-ps.amazon.com
-    - domain:primevideo.com
-    - domain:pv-cdn.net
-    - domain:video.a2z.com
-    # > TVBAnywhere+
-    - domain:tvbanywhere.com
-    - domain:tvbanywhere.com.sg
-    - domain:tvb.com
-    - domain:tvb.com.au
-    - domain:tvbc.com.cn
-    - domain:tvbeventpower.com.hk
-    - domain:tvbusa.com
-    - domain:tvbweekly.com
-    - domain:tvmedia.net.au
-    # > Viu.com
-    - domain:cognito-identity.us-east-1.amazonaws.com
-    - domain:d1k2us671qcoau.cloudfront.net
-    - domain:d2anahhhmp1ffz.cloudfront.net
-    - domain:dfp6rglgjqszk.cloudfront.net
-    - domain:mobileanalytics.us-east-1.amazonaws.com
-    - domain:viu.com
-    # > Steam Store
-    - domain:steampowered.com
-    # > iQiyi
-    - domain:71.am
-    - domain:iq.com
-    - domain:iqiyi.com
-    - domain:iqiyipic.com
-    - domain:pps.tv
-    - domain:ppsimg.com
-    - domain:qiyi.com
-    - domain:qiyipic.com
-    - domain:qy.net
-    # > Spotify
-    - domain:spotify.com
-    # > Tiktok
-    - domain:byteoversea.com
-    - domain:ibytedtos.com
-    - domain:ipstatp.com
-    - domain:muscdn.com
-    - domain:musical.ly
-    - domain:tiktok.com
-    - domain:tik-tokapi.com 
-    - domain:tiktokcdn.com
-    - domain:tiktokv.com
+
     # ---------- > Taiwan Media
     # > KKTV
     - domain:kfs.io
@@ -99,7 +41,6 @@ https://sin.core.access.zznet.fun/dns-query:
     - domain:kktv.me
     # > LiTV
     - domain:litv.tv
-    - domain:LiTV.tv
     - domain:litvfreemobile-hichannel.cdn.hinet.net
     # > MyVideo
     - domain:cdn.plyr.io
@@ -142,22 +83,9 @@ https://sin.core.access.zznet.fun/dns-query:
     - domain:gamer.com.tw
     - domain:gamer-cds.cdn.hinet.net
     - domain:gamer2-cds.cdn.hinet.net
-    # > BiliBili Taiwan Only
+    # > BiliBili
     - domain:bilibili.com
-    # ---------- > Canada Media
-    # > CBC Gem
-    - domain:cbc.ca
-    - domain:cbchd1dynamicads-i.akamaihd.net
-    - domain:cbclivedai5-i.akamaihd.net
-    - domain:cbcnewshd-f.akamaihd.net
-    - domain:cbcrcott-gem-key.akamaized.net
-    - domain:cbcrcott-gem.akamaized.net
-    - domain:go-mpulse.net
-    - domain:theplatform.com
-    # > Crave TV
-    - domain:crave.ca
-    - domain:go-mpulse.net
-    - domain:9c9media.com
+
     # ---------- > Japan Media
     # > DMM
     - domain:dmm-extension.com
@@ -211,7 +139,7 @@ https://sin.core.access.zznet.fun/dns-query:
     # > TVer
     - domain:tver.jp
     - domain:edge.api.brightcove.com
-    # .*players.brightcove.net
+    #     - domain:players.brightcove.net
     - domain:gorin.jp
     - domain:screens-lab.jp
     - domain:tver.co.jp
@@ -238,130 +166,7 @@ https://sin.core.access.zznet.fun/dns-query:
     - domain:konosubafd.jp
     - domain:colorfulpalette.org
     - domain:worldflipper.jp
-    # ---------- > Oceania Media
-    # > NBA TV !Against US!
-    - domain:nba.com
-    - domain:neulion-a.akamaihd.net
-    - domain:nlnbamdnyc-a.akamaihd.net
-    - domain:sdk.iad-03.braze.com
-    - domain:nbaprop.sc.omtrdc.net
-    - domain:nlnbaqos.neulion.com
-    - domain:watchnba.cdnfastly.endeavorstreaming.net
-    - domain:nbaapi.neulion.com
-    - domain:nba-api-cdn.opin.media
-    - domain:neulionqos-a.akamaihd.net
-    - domain:neulion.com
-    - domain:nbaprop.tt.omtrdc.net
-    - domain:lion-nba-msl.akamaized.net
-    - domain:nbanlds19vod.akamaized.net
-    # > Acorn TV !Against US!
-    - domain:edge.api.brightcove.com
-    - domain:api.rlje.net
-    - domain:boltdns.net
-    - domain:acorn.tv
-    # > SHOWTIME !Against US!
-    - domain:sho.com
-    - domain:showtime.com
-    - domain:showtimeanytime.com
-    # > BritBox !Against US/EU!
-    - domain:vod-dash-ntham-comm-live.akamaized.net
-    - domain:vod-dash-ntham-comm.live.cf.md.bbci.co.uk
-    - domain:vod-hls-ntham-comm-live.akamaized.net
-    - domain:vod-hls-ntham-comm.live.cf.md.bbci.co.uk
-    - domain:britbox.com
-    - domain:d2z3p34itxwaj7.cloudfront.net
-    # > Funimation !Against US/EU!
-    - domain:funimation.com
-    - domain:funimationsvc.com
-    # > Paramount+ !Against US!
-    - domain:paramountplus.com
-    - domain:cbsi.live.ott.irdeto.com
-    - domain:cbsplaylistserver.aws.syncbak.com
-    - domain:cbsservice.aws.syncbak.com
-    - domain:link.theplatform.com
-    - domain:cbsaavideo.com
-    - domain:cbsi.com
-    - domain:cbsivideo.com
-    - domain:pplusstatic.com
-    # > AU:Stan
-    - domain:stan.com.au
-    - domain:stan.video
-    - domain:streamcoimg-a.akamaihd.net
-    - domain:live01-stan.akamaized.net
-    - domain:live02-stan.akamaized.net
-    # > AU:Binge
-    - domain:streamotion.com.au
-    # > AU:Docplay
-    - domain:docplay.com
-    - domain:0c86e2d1-madman-com-au.akamaized.net
-    - domain:ff1be285-madman-com-au.akamaized.net
-    - domain:5a929471-madman-com-au.akamaized.net
-    - domain:879ed873-madman-com-au.akamaized.net
-    # > AU:7plus
-    - domain:7plus.com.au
-    - domain:npc-live-sevennetwork.akamaized.net
-    - domain:7plus-sevennetwork.akamaized.net
-    - domain:seven.demdex.net
-    - domain:cdn.7livecloud.io
-    # > AU:9 now
-    - domain:nine.com.au
-    - domain:9now.com.au
-    - domain:edge.api.brightcove.com
-    - domain:p-9now.akamaized.net
-    - domain:9now-livestreams.akamaized.net
-    - domain:9cdn.net
-    - domain:9nation.com.au
-    - domain:9news.com.au
-    - domain:9now.com.au
-    - domain:freeviewplus.net.au
-    - domain:mi9.com.au
-    - domain:mi9cdn.com
-    - domain:nine.com.au
-    - domain:nineentertainment.com.au
-    - domain:nineentertainmentco.com.au
-    - domain:ninemediaroom.com.au
-    - domain:ninemsn.com.au
-    - domain:static9.net.au
-    - domain:yourtv.com.au
-    # > AU:10 play
-    - domain:10play.com.au
-    - domain:global.ssl.fastly.net
-    - domain:airspace-cdn.cbsviedo.com
-    - domain:net10-livestream-keys.play.cbsi.video
-    - domain:net10-livestream.play.cbsi.video
-    - domain:d25m2gzplgnf0.cloudfront.net
-    # > AU:ABC iView
-    - domain:iview.abc.net.au
-    - domain:abc-iview-mediapackagestreams-2.akamaized.net
-    # > AU:Optus
-    - domain:optus.com.au
-    - domain:optusdigital.com
-    - domain:optusnet.com.au
-    - domain:optussport.tv
-    - domain:optusvideo.tv
-    - domain:tls1.yospace.com
-    - domain:bln1.yospace.com
-    - domain:d3rj5p7u4c4icq.cloudfront.net
-    - domain:mgd0ee5iankkv3gidl14rm7c0.litix.io
-    - domain:93e30b04-drm-widevine-licensing.axprod.net
-    # > AU:SBS on Demand
-    - domain:sbsod.com
-    - domain:sbs.com.au
-    - domain:videocdn-sbs.akamaized.net
-    - domain:sbsvoddai-vh.akamaihd.net
-    - domain:sbsvodns-vh.akamaihd.net
-    - domain:sbs-live-dai.akamaized.net
-    - domain:sbs-live.akamaized.net
-    - domain:sbs-live-dai.akamaized.net
-    # > NZ:Neon TV
-    - domain:neontv.co.nz
-    # > NZ:SykGO NZ
-    - domain:sky.co.nz
-    # > NZ:ThreeNow
-    - domain:fullscreen.nz
-    # > NZ:Maori TV
-    #
-    
+
     # ---------- > North America Media
     # > FOX
     - domain:x-live-fox-stgec.uplynk.com
@@ -385,15 +190,17 @@ https://sin.core.access.zznet.fun/dns-query:
     # > NFL
     - domain:nfl.com
     # > ESPN+
+    - domain:espn.api.edge.bamgrid.com
+    - domain:espn.hb.omtrdc.net
+    - domain:espndotcom.tt.omtrdc.net
+    - domain:dtci.co
+    - domain:dtci.technology
     - domain:espn.co.uk
     - domain:espn.com
     - domain:espn.net
     - domain:espncdn.com
     - domain:espnqa.com
     - domain:watchespn.com
-    - domain:espn.hb.omtrdc.net
-    - domain:espndotcom.tt.omtrdc.net
-    - domain:espn.api.edge.bamgrid.com
     # > Epix
     - domain:epix.com
     # > Starz
@@ -507,7 +314,10 @@ https://sin.core.access.zznet.fun/dns-query:
     - domain:kbs.co.kr
     # > KOCOWA
     - domain:kocowa.com
-    
+    # > F1TV
+    - domain:f1prodlive.akamaized.net
+    - domain:formula1.com
+
     # ---------- > Europe Media
     # > EU:Rakuten TV
     - domain:rakuten.tv
@@ -526,8 +336,6 @@ https://sin.core.access.zznet.fun/dns-query:
     - domain:hbomax.com
     - domain:hbomaxcdn.com
     - domain:maxgo.com
-    # > GB:Sky GO SkyGONZ
-    - domain:sky.com
     # > GB:BritBox !Against US/AU!
     - domain:vod-dash-ntham-comm-live.akamaized.net
     - domain:vod-dash-ntham-comm.live.cf.md.bbci.co.uk
@@ -596,22 +404,26 @@ https://sin.core.access.zznet.fun/dns-query:
     - domain:zdf.de
     # > NL:videoland
     - domain:videoland.com
+    # > NL:NPO
+    - domain:npo.nl
     # > RU:Amediateka
     - domain:amediateka.ru
-    
+    # > UA:MEGOGO
+    - domain:megogo.net
+    - domain:vcdn.biz
+    # > CH:Sky
+    - domain:sky.ch
+    - domain:zahs.tv
+
     # ---------- > Hong Kong Media
     # > Now E 
     - domain:nowe.com
     - domain:nowestatic.com
-    # > Viu.TV
-    #include Viu.com
-    - domain:viu.now.com
-    - domain:viu.tv
     # > MyTVSuper
     - domain:mytvsuper.com
     - domain:mytvsuperlimited.hb.omtrdc.net
     - domain:mytvsuperlimited.sc.omtrdc.net
-    #.*tvb.com
+    - domain:tvb.com
     # > HBO GO Asia
     - domain:44wilhpljf.execute-api.ap-southeast-1.amazonaws.com
     - domain:bcbolthboa-a.akamaihd.net
@@ -627,9 +439,7 @@ https://sin.core.access.zznet.fun/dns-query:
     - domain:hbounify-prod.evergent.com
     - domain:hbogoasia.com
     - domain:hbogoasia.hk
-    # > BiliBili 
-    - domain:bilibili.com
-    
+
     # ---------- > South America Media
     # Star+
     - domain:starplus.com
@@ -638,41 +448,7 @@ https://sin.core.access.zznet.fun/dns-query:
     - domain:star.connections.edge.bamgrid.com
     - domain:star.content.edge.bamgrid.com
     - domain:star.playback.edge.bamgrid.com
-    # > HBO 
-    - domain:cinemax.com
-    - domain:forthethrone.com
-    - domain:hbo.com
-    - domain:hbogo.com
-    - domain:hbomax.com
-    - domain:hbomaxcdn.com
-    - domain:hbonow.com
-    - domain:maxgo.com
-    # > DirecTV
-    - domain:directvgo.com
-    # > Funimation !Against US/EU/AU!
-    - domain:funimation.com
-    
-    # ---------- > Indian Media
-    - domain:discoveryplus.in
-    
-    # ---------- > Korean Media
-    # > Wavve
-    - domain:wavve.com
-    - domain:pooq.co.kr
-    # > Tving
-    - domain:tving.com
-    # > Coupang Play
-    - domain:coupangplay.com
-    # > Naver TV
-    - domain:naver.com
-    - domain:navercorp.com
-    - domain:pstatic.net
-    - domain:smartmediarep.com
-    # > Afreeca TV
-    - domain:afreecatv.com
-    # > KBS Domestic
-    - domain:kbs.co.kr
-    
+
     # ---------- > ? media
     # > Setanta Sports
     - domain:setantasports.com
@@ -683,7 +459,7 @@ https://sin.core.access.zznet.fun/dns-query:
     - domain:imggaming.s3-eu-west-1.amazonaws.com
     - domain:ux1kpaebv0.execute-api.eu-west-1.amazonaws.com
     - domain:1ok961aaca.execute-api.eu-west-1.amazonaws.com
-    
+
     # ---------- > SouthEastAsia media
     # > HBO GO Asia
     - domain:44wilhpljf.execute-api.ap-southeast-1.amazonaws.com
@@ -704,6 +480,11 @@ https://sin.core.access.zznet.fun/dns-query:
     - domain:bilibili.tv
     # > SG:meWATCH
     - domain:mewatch.sg
+    # > SG:StarHub
+    - domain:starhubgo.com
+    - domain:failoverstarhub.akamaized.net
+    - domain:scvm1sc0-ssm.anycast.nagra.com
+    - domain:starhubtvplus.com
     # > TH:TrueID 
     - domain:trueid.net
     # > TH:AIS Play
@@ -717,16 +498,31 @@ https://sin.core.access.zznet.fun/dns-query:
     - domain:cliptv.vn
     # > VN:Galaxy Play
     - domain:glxplay.io
+    # > MY:sooka
+    - domain:sooka.my
+    - domain:kaltura.com
+    - domain:1fad96d91f4f519fc79753650a57dad992c44af2.cws.conviva.com
+    - domain:fontawesome.com
+    - domain:maxcdn.icons8.com
+    - domain:kingdata.ksyun.com
+    # > MY:astro
+    - domain:astro.com.my
     # > IN:MXPlayer
     - domain:mxplayer.in
     # > IN:Tata Play
     - domain:tataplay.com
-    
+    # > UAE:shahid
+    - domain:mbc.net
+    - domain:npaw.com
+    - domain:shahid.net
+
     # ---------- > Others
     # > Openai
     - domain:openai.com
-    # > ExHantai
-    - domain:exhentai.org
+    - domain:oaistatic.com
+    - domain:oaiusercontent.com
     # > Claude 2
     - domain:anthropic.com
     - domain:claude.ai
+    # > Google Bard
+    - domain:bard.google.com
