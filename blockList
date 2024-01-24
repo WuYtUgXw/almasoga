@@ -33,5 +33,3 @@ regexp:(ed2k|.torrent|peer_id=|announce|info_hash|get_peers|find_node|BitTorrent
 regexp:(.*\\.||)(speed|speedtest|fast|speed.cloudflare).(com|cn|net|co|xyz|dev|edu|pro)
 regexp:(.*\\.||)(.*\\.||)(laomoe|leyunz|jiyou|vv1234|183000|nnan).(com|cn|net|co|xyz|dev|top|cloud|cc)
 regexp:(.*\\.||)(weibo|douyin|douban|tieba.baidu|cctv|dianping|tv.cctv|zhihu|toutiao|xiaohongshu|xhscdn|kuaishou|kuaishouzt).(com|cn|net|co|xyz|dev|edu|pro)
-geoip:cn
-geosite:cn
