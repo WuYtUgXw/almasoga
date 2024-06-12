@@ -519,6 +519,7 @@ https://sin.core.access.zznet.fun/dns-query:
     # ---------- > Others
     # > Openai
     - domain:openai.com
+    - domain:chatgpt.com
     - domain:oaistatic.com
     - domain:oaiusercontent.com
     # > Claude 2
