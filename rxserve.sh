@@ -8,9 +8,40 @@ YELLOW='\033[0;33m'
 BLUE='\033[0;34m'
 NC='\033[0m' # 恢复默认颜色
 
-# 项目路径
-PROJECT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/relayx-site"
-COMPOSE_FILE="$PROJECT_DIR/compose.yaml"
+# 自动检测项目目录
+detect_project_dir() {
+    # 检查当前目录
+    if [ -f "compose.yaml" ] || [ -f "docker-compose.yml" ]; then
+        echo "$(pwd)"
+        return
+    fi
+    
+    # 检查上级目录
+    if [ -f "../compose.yaml" ] || [ -f "../docker-compose.yml" ]; then
+        echo "$(pwd)/.."
+        return
+    fi
+    
+    # 检查同级relayx-site目录
+    if [ -d "relayx-site" ] && ( [ -f "relayx-site/compose.yaml" ] || [ -f "relayx-site/docker-compose.yml" ] ); then
+        echo "$(pwd)/relayx-site"
+        return
+    fi
+    
+    # 检查上级目录的relayx-site
+    if [ -d "../relayx-site" ] && ( [ -f "../relayx-site/compose.yaml" ] || [ -f "../relayx-site/docker-compose.yml" ] ); then
+        echo "$(pwd)/../relayx-site"
+        return
+    fi
+    
+    # 如果在HOME目录下
+    if [ -d "$HOME/relayx-site" ] && ( [ -f "$HOME/relayx-site/compose.yaml" ] || [ -f "$HOME/relayx-site/docker-compose.yml" ] ); then
+        echo "$HOME/relayx-site"
+        return
+    fi
+    
+    return 1
+}
 
 # 检查命令是否存在
 command_exists() {
@@ -44,16 +75,24 @@ check_docker() {
 
 # 检查项目目录
 check_project() {
-    if [ ! -d "$PROJECT_DIR" ]; then
-        echo -e "${RED}错误: 项目目录不存在: $PROJECT_DIR${NC}"
-        echo "请确保脚本与relayx-site目录在同一父目录下"
+    PROJECT_DIR=$(detect_project_dir)
+    
+    if [ $? -ne 0 ]; then
+        echo -e "${RED}错误: 无法找到项目目录${NC}"
+        echo "请确保compose.yaml或docker-compose.yml文件存在于当前目录、同级目录或上级目录中"
         exit 1
     fi
     
-    if [ ! -f "$COMPOSE_FILE" ]; then
-        echo -e "${RED}错误: Docker Compose文件不存在: $COMPOSE_FILE${NC}"
-        exit 1
+    echo -e "${GREEN}已找到项目目录: $PROJECT_DIR${NC}"
+    
+    # 确定compose文件路径
+    if [ -f "$PROJECT_DIR/compose.yaml" ]; then
+        COMPOSE_FILE="$PROJECT_DIR/compose.yaml"
+    else
+        COMPOSE_FILE="$PROJECT_DIR/docker-compose.yml"
     fi
+    
+    echo -e "${GREEN}使用Compose文件: $COMPOSE_FILE${NC}"
 }
 
 # 启动服务
