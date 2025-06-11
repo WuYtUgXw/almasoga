@@ -248,6 +248,7 @@ EOF
 # 清理所有组件
 clean_all() {
     echo -e "${RED}警告: 此操作将删除所有服务、数据和配置！${NC}"
+    echo -e "${RED}但保留项目目录和代码文件。${NC}"
     read -p "确定要继续吗？(y/N): " confirm
     
     if [[ $confirm != [yY] ]]; then
@@ -271,6 +272,61 @@ clean_all() {
     rm -rf caddy_data caddy_config mysql_data redis_data web_cache
     
     echo -e "${RED}所有组件已清理完成！${NC}"
+    echo -e "${YELLOW}项目目录保留在: $PROJECT_DIR${NC}"
+}
+
+# 彻底删除RelayX（新增功能）
+completely_remove_relayx() {
+    echo -e "${RED}⚠️ 警告: 此操作将彻底删除RelayX！${NC}"
+    echo -e "${RED}⚠️ 这将删除所有容器、数据卷、镜像和项目目录！${NC}"
+    echo -e "${RED}⚠️ 此操作不可撤销，所有数据将永久丢失！${NC}"
+    read -p "请输入项目名称确认删除: " confirm_name
+    
+    if [[ "$confirm_name" != "relayx" ]]; then
+        echo -e "${RED}确认名称不匹配，操作已取消${NC}"
+        return
+    fi
+    
+    read -p "确定要彻底删除RelayX吗？(yes/I am sure): " final_confirm
+    
+    if [[ "$final_confirm" != "yes" && "$final_confirm" != "I am sure" ]]; then
+        echo -e "${GREEN}操作已取消${NC}"
+        return
+    fi
+    
+    echo -e "${RED}🔥 正在彻底删除RelayX...${NC}"
+    
+    # 1. 停止所有服务
+    echo -e "${RED}停止所有服务...${NC}"
+    cd "$PROJECT_DIR" 2>/dev/null && $DOCKER_COMPOSE down -v || true
+    
+    # 2. 删除所有相关容器
+    echo -e "${RED}删除所有RelayX相关容器...${NC}"
+    docker rm -f $(docker ps -a | grep "relayx" | awk '{print $1}') 2>/dev/null || true
+    
+    # 3. 删除所有相关数据卷
+    echo -e "${RED}删除所有RelayX相关数据卷...${NC}"
+    docker volume rm $(docker volume ls | grep "relayx" | awk '{print $2}') 2>/dev/null || true
+    docker volume prune -f
+    
+    # 4. 删除所有相关镜像
+    echo -e "${RED}删除所有RelayX相关镜像...${NC}"
+    docker rmi -f $(docker images | grep "relayx" | awk '{print $3}') 2>/dev/null || true
+    
+    # 5. 删除项目目录
+    echo -e "${RED}删除项目目录...${NC}"
+    cd "$HOME" 2>/dev/null || cd "/" 2>/dev/null
+    rm -rf "$PROJECT_DIR" 2>/dev/null
+    
+    # 6. 删除相关配置和缓存目录
+    echo -e "${RED}删除相关配置和缓存目录...${NC}"
+    rm -rf ~/.relayx ~/.config/relayx ~/.cache/relayx 2>/dev/null
+    
+    echo -e "${RED}🔥 RelayX已彻底删除！${NC}"
+    echo -e "${GREEN}所有组件、数据和项目目录已被移除${NC}"
+    
+    # 退出脚本
+    exit 0
 }
 
 # 显示主菜单
@@ -284,7 +340,8 @@ show_menu() {
     echo "4. 查看日志"
     echo "5. 修复服务"
     echo "6. 清理所有组件"
-    echo "7. 退出"
+    echo "7. 彻底删除RelayX"
+    echo "8. 退出"
     echo -e "${BLUE}=====================================${NC}"
 }
 
@@ -295,7 +352,7 @@ main() {
     
     while true; do
         show_menu
-        read -p "请输入选项 [1-7]: " choice
+        read -p "请输入选项 [1-8]: " choice
         
         case $choice in
             1)
@@ -317,6 +374,9 @@ main() {
                 clean_all
                 ;;
             7)
+                completely_remove_relayx
+                ;;
+            8)
                 echo -e "${GREEN}感谢使用，再见！${NC}"
                 exit 0
                 ;;
