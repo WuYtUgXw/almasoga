@@ -1,5 +1,5 @@
 #!/bin/bash
-# RelayX一键修复脚本
+# RelayX一键修复脚本（修复版）
 
 # 颜色定义
 GREEN="\033[0;32m"
@@ -40,13 +40,28 @@ check_docker() {
 
 # 进入项目目录
 cd_project() {
-    if [ ! -d "relayx-site" ]; then
-        log_error "未找到relayx-site目录"
-        exit 1
+    # 检查当前目录是否为项目目录
+    if [ -f "compose.yaml" ] || [ -f "docker-compose.yml" ]; then
+        log_info "已在项目目录: $(pwd)"
+        return
     fi
     
-    cd relayx-site || exit
-    log_info "已进入项目目录: $(pwd)"
+    # 检查上级目录
+    if [ -d "../relayx-site" ] && [ -f "../relayx-site/compose.yaml" ]; then
+        cd ../relayx-site || exit
+        log_info "已进入项目目录: $(pwd)"
+        return
+    fi
+    
+    # 检查同级目录
+    if [ -d "relayx-site" ] && [ -f "relayx-site/compose.yaml" ]; then
+        cd relayx-site || exit
+        log_info "已进入项目目录: $(pwd)"
+        return
+    fi
+    
+    log_error "未找到项目目录，请确保在正确的目录下运行此脚本"
+    exit 1
 }
 
 # 备份当前配置
